@@ -43,6 +43,66 @@ const circle = new CircleAnimation();
 const counter = new CounterAnimation();
 const sequence = buildAnimationSequence();
 
+// ─── Precompute Absolute Timeline Timestamps ────────────────
+const frameTimestamps = [];
+let cumulativeTime = 0;
+
+for (let i = 0; i < sequence.length; i++) {
+  frameTimestamps.push(cumulativeTime);
+
+  const frame = sequence[i];
+  let holdDuration = TIMING.frameDuration;
+  
+  if (i === 0) {
+    holdDuration += TIMING.startDelay;
+  } else {
+    const prevFrame = sequence[i - 1];
+    const isTierChange = frame.isTierStart && prevFrame.tier.id !== frame.tier.id;
+    if (frame.isTierStart && isTierChange) {
+      holdDuration += TIMING.tierStartPause;
+    }
+    if (frame.isTierEnd) {
+      holdDuration += TIMING.tierEndPause;
+    }
+  }
+  cumulativeTime += holdDuration;
+}
+
+// Find milestones
+const first700Index = sequence.findIndex(f => f.points === 700);
+const first1000Index = sequence.findIndex(f => f.points === 1000);
+
+const timeTo700 = first700Index !== -1 ? frameTimestamps[first700Index] : 20000;
+const timeTo1000 = first1000Index !== -1 ? frameTimestamps[first1000Index] : 25000;
+
+const REWARD_ORDER = [
+  'reward-welcome',
+  'reward-shipping',
+  'reward-theme',
+  'reward-birthday',
+  'reward-saving',
+  'reward-warranty',
+  'reward-collections',
+  'reward-chat',
+  'reward-giveaway',
+  'reward-vote'
+];
+
+const unlockTimes = {};
+// Space first 8 cards across timeTo700, starting after a 2.0-second delay to let the animation establish
+const startOffset = 2000;
+const staggerIntervalTo700 = (timeTo700 - startOffset) / 7;
+for (let i = 0; i < 8; i++) {
+  const cardId = REWARD_ORDER[i];
+  unlockTimes[cardId] = startOffset + i * staggerIntervalTo700;
+}
+
+// Space giveaway and vote collections across the remaining duration to 1000
+const duration700To1000 = timeTo1000 - timeTo700;
+const staggerIntervalTo1000 = duration700To1000 / 3;
+unlockTimes['reward-giveaway'] = timeTo700 + 0.5 * staggerIntervalTo1000;
+unlockTimes['reward-vote'] = timeTo700 + 1.5 * staggerIntervalTo1000;
+
 // ─── Reward Icons Mapping ────────────────────────────────────
 const REWARD_ICONS = {
   'reward-welcome': {
@@ -111,16 +171,24 @@ rewardSvgs.push('/svgs/tier-rewards/locked.svg');
 
 circle.preload([...allCircleSvgs, ...allStarSvgs, ...extraSvgs, ...rewardSvgs]);
 
-// ─── Update Reward Cards ─────────────────────────────────────
-function updateRewardCards(points) {
-  for (const [cardId, threshold] of Object.entries(REWARD_UNLOCKS)) {
+// ─── Update Reward Cards By Time ─────────────────────────────
+let cycleStartTime = 0;
+let isAnimationActive = false;
+let rafId = null;
+
+function updateRewardCardsByTime(elapsed) {
+  const currentPoints = counter.currentValue;
+
+  for (const cardId of REWARD_ORDER) {
     const cardEl = document.getElementById(cardId);
     if (!cardEl) continue;
 
     const imgEl = cardEl.querySelector('.reward-card__lock');
-    if (points >= threshold) {
+    const unlockTime = unlockTimes[cardId];
+
+    if (elapsed >= unlockTime) {
       cardEl.classList.remove('locked');
-      if (points < 700) {
+      if (currentPoints < 700) {
         cardEl.classList.add('unlocked-initial');
         cardEl.classList.remove('unlocked-galaxy');
         if (imgEl && !imgEl.src.endsWith(REWARD_ICONS[cardId].initial)) {
@@ -143,9 +211,20 @@ function updateRewardCards(points) {
   }
 }
 
-// Hook up dynamic reward unlocking to the counter
+function tick() {
+  if (!isAnimationActive) return;
+  const elapsed = performance.now() - cycleStartTime;
+  updateRewardCardsByTime(elapsed);
+  rafId = requestAnimationFrame(tick);
+}
+
+// Hook up dynamic reward unlocking to the counter (for scrub/debug manual controls)
 counter.onUpdate = (val) => {
-  updateRewardCards(val);
+  if (!isAnimationActive) {
+    const firstFrameIndex = sequence.findIndex(f => f.points >= val);
+    const mockElapsed = firstFrameIndex !== -1 ? frameTimestamps[firstFrameIndex] : 0;
+    updateRewardCardsByTime(mockElapsed);
+  }
 };
 
 // ─── Actions Card Updater ────────────────────────────────────
@@ -260,7 +339,20 @@ function playFrame() {
       currentStarPath = firstFrame.starPath;
       triggerFadeUp(DOM.counterNumberContainer);
 
-      timeoutId = setTimeout(playFrame, TIMING.loopPause);
+      // Lock everything immediately during loop pause
+      isAnimationActive = false;
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = null;
+      updateRewardCardsByTime(0);
+
+      timeoutId = setTimeout(() => {
+        // Resume tick loop when animation restarts
+        cycleStartTime = performance.now();
+        isAnimationActive = true;
+        rafId = requestAnimationFrame(tick);
+        
+        playFrame();
+      }, TIMING.loopPause);
       return;
     }
     isPlaying = false;
@@ -323,6 +415,12 @@ function startAnimation() {
   currentStarPath = firstFrame.starPath;
   triggerFadeUp(DOM.counterNumberContainer);
 
+  // Start the tick loop
+  cycleStartTime = performance.now();
+  isAnimationActive = true;
+  if (rafId) cancelAnimationFrame(rafId);
+  rafId = requestAnimationFrame(tick);
+
   // Begin after delay
   frameIndex = 1;
   timeoutId = setTimeout(playFrame, TIMING.startDelay + TIMING.frameDuration);
@@ -333,6 +431,11 @@ function startAnimation() {
  */
 function stopAnimation() {
   isPlaying = false;
+  isAnimationActive = false;
+  if (rafId) {
+    cancelAnimationFrame(rafId);
+    rafId = null;
+  }
   if (timeoutId) {
     clearTimeout(timeoutId);
     timeoutId = null;
