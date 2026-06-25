@@ -102,7 +102,7 @@ export const TIERS = {
       bgOuter: 'rgba(255, 255, 255, 0.6)',
       borderOuter: '#2E253A',
       bgInner: '#FFFFFF',
-      borderInner: '#FFFFFF',
+      borderInner: '#2E253A',
       bgCounter: '#FFFFFF',
       borderCounter: '#2E253A',
       text: '#3D3532',
