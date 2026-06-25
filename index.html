@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>S-Brillet Loyalty Universe | Sparkle Points</title>
+  <meta name="description" content="S-Brillet Sparkle Points Loyalty Program — Earn rewards, unlock tiers, and join the VIP Loyalty Universe Club" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <main class="loyalty-universe" id="loyalty-universe">
+    <div class="loyalty-grid">
+
+      <!-- ═══════════════════════════════════════════════════ -->
+      <!-- EARN SPARKLE POINTS                                 -->
+      <!-- ═══════════════════════════════════════════════════ -->
+      <section class="section earn-sparkle" id="earn-sparkle">
+        <h2 class="section-label">EARN SPARKLE POINTS</h2>
+        <div class="earn-sparkle__content" id="earn-sparkle-content">
+
+          <!-- Top: Circle + Counter -->
+          <div class="earn-sparkle__top">
+            <div class="circle-container" id="circle-container">
+              <div class="circle-frame" id="circle-frame">
+                <img
+                  id="circle-svg-current"
+                  class="circle-svg circle-svg--active"
+                  src="/svgs/circles/s-brillet-0.svg"
+                  alt="Loyalty tier indicator"
+                />
+                <img
+                  id="circle-svg-next"
+                  class="circle-svg"
+                  src=""
+                  alt=""
+                />
+              </div>
+            </div>
+
+            <div class="sparkle-counter" id="sparkle-counter">
+              <div class="sparkle-counter__number" id="sparkle-counter-number-container">
+                <span class="sparkle-counter__value" id="sparkle-value">0</span>
+                <span class="sparkle-counter__plus">+</span>
+                <img id="sparkle-star-icon" class="sparkle-counter__star" src="/svgs/tire-starstep/Property 1=Default.svg" alt="Tier stars" />
+              </div>
+              <span class="sparkle-counter__label">SPARKLE POINTS</span>
+            </div>
+          </div>
+
+          <!-- Bottom: Tier Info Card -->
+          <div class="earn-sparkle__info" id="tier-info-card">
+            <div class="tier-info__row">
+              <div class="tier-badge" id="tier-badge">
+                <span class="tier-badge__icon" id="tier-icon">◇</span>
+                <span class="tier-badge__name" id="tier-name">S-BRILLET</span>
+              </div>
+              <div class="tier-points-label" id="tier-points-label">
+                (0 SPARKLE POINTS)
+              </div>
+            </div>
+            <div class="tier-info__row tier-info__row--actions">
+              <div class="tier-action" id="tier-action-primary">
+                <span class="tier-action__check">☑</span>
+                <span class="tier-action__text">Sign Up</span>
+              </div>
+              <div class="tier-action tier-action--points" id="tier-action-secondary">
+                <span class="tier-action__text">+40 Sparkle Points</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════ -->
+      <!-- UNLOCK TIER REWARDS                                 -->
+      <!-- ═══════════════════════════════════════════════════ -->
+      <section class="section tier-rewards" id="tier-rewards">
+        <h2 class="section-label">UNLOCK TIER REWARDS</h2>
+        <div class="tier-rewards__grid">
+          <!-- Row 1 -->
+          <div class="reward-card locked" id="reward-welcome">
+            <div class="reward-card__icon-wrap">
+              <svg class="reward-card__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
+            </div>
+            <p class="reward-card__text">WELCOME GIFT<br/>ONE-TIME 10% OFF</p>
+          </div>
+          <div class="reward-card locked" id="reward-shipping">
+            <div class="reward-card__icon-wrap">
+              <svg class="reward-card__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
+            </div>
+            <p class="reward-card__text">FREE SHIPPING<br/>ON ORDERS $100+</p>
+          </div>
+          <div class="reward-card locked" id="reward-theme">
+            <div class="reward-card__icon-wrap">
+              <svg class="reward-card__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
+            </div>
+            <p class="reward-card__text">FREE THEME<br/>MESSAGE CARD</p>
+          </div>
+          <div class="reward-card locked" id="reward-birthday">
+            <div class="reward-card__icon-wrap">
+              <svg class="reward-card__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
+            </div>
+            <p class="reward-card__text">BIRTHDAY GIFT<br/>REWARD $10</p>
+          </div>
+          <div class="reward-card locked" id="reward-saving">
+            <div class="reward-card__icon-wrap">
+              <svg class="reward-card__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
+            </div>
+            <p class="reward-card__text">MEMBER<br/>SAVING 5% OFF</p>
+          </div>
+          <!-- Row 2 -->
+          <div class="reward-card locked" id="reward-warranty">
+            <div class="reward-card__icon-wrap">
+              <svg class="reward-card__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
+            </div>
+            <p class="reward-card__text">2-YEAR JEWELRY<br/>WARRANTY</p>
+          </div>
+          <div class="reward-card locked" id="reward-collections">
+            <div class="reward-card__icon-wrap">
+              <svg class="reward-card__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
+            </div>
+            <p class="reward-card__text">VIEW NEW<br/>COLLECTIONS</p>
+          </div>
+          <div class="reward-card locked" id="reward-chat">
+            <div class="reward-card__icon-wrap">
+              <svg class="reward-card__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
+            </div>
+            <p class="reward-card__text">CONTACT LIVE<br/>SUPPORT CHAT</p>
+          </div>
+          <div class="reward-card locked" id="reward-giveaway">
+            <div class="reward-card__icon-wrap">
+              <svg class="reward-card__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
+            </div>
+            <p class="reward-card__text">FREE JEWELLERY<br/>GIVEAWAY</p>
+          </div>
+          <div class="reward-card locked" id="reward-vote">
+            <div class="reward-card__icon-wrap">
+              <svg class="reward-card__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
+            </div>
+            <p class="reward-card__text">VOTE NEW<br/>COLLECTIONS</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════ -->
+      <!-- UNLOCK BUNDLE DEALS                                 -->
+      <!-- ═══════════════════════════════════════════════════ -->
+      <section class="section bundle-deals" id="bundle-deals">
+        <h2 class="section-label">UNLOCK BUNDLE DEALS</h2>
+        <div class="bundle-deals__content">
+          <div class="bundle-deals__icons" id="bundle-icons">
+            <div class="bundle-icon locked" data-index="0">
+              <svg class="bundle-icon__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
+            </div>
+            <div class="bundle-icon locked" data-index="1">
+              <svg class="bundle-icon__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
+            </div>
+            <div class="bundle-icon locked" data-index="2">
+              <svg class="bundle-icon__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
+            </div>
+            <div class="bundle-icon locked" data-index="3">
+              <svg class="bundle-icon__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
+            </div>
+            <div class="bundle-icon locked" data-index="4">
+              <svg class="bundle-icon__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
+            </div>
+          </div>
+          <p class="bundle-deals__label" id="bundle-label">LEVEL UP TO SHINY TIER</p>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════ -->
+      <!-- SPEND SPARKLE POINTS                                -->
+      <!-- ═══════════════════════════════════════════════════ -->
+      <section class="section spend-points" id="spend-points">
+        <h2 class="section-label">SPEND SPARKLE POINTS</h2>
+        <div class="spend-points__content">
+          <div class="spend-points__bar" id="spend-bar">
+            <div class="spend-points__icons" id="spend-icons">
+              <div class="spend-icon locked" data-index="0">
+                <svg class="spend-icon__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
+              </div>
+              <div class="spend-icon locked" data-index="1">
+                <svg class="spend-icon__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
+              </div>
+              <div class="spend-icon locked" data-index="2">
+                <svg class="spend-icon__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
+              </div>
+              <div class="spend-icon locked" data-index="3">
+                <svg class="spend-icon__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
+              </div>
+              <div class="spend-icon locked" data-index="4">
+                <svg class="spend-icon__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
+              </div>
+            </div>
+            <p class="spend-points__label" id="spend-label">SIGN UP TO JOIN VIP LOYALTY UNIVERSE CLUB</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
