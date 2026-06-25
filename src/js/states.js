@@ -143,6 +143,201 @@ export const TIER_ORDER = [
 ];
 
 
+// ─── Card State Mapping ─────────────────────────────────────
+
+function getCardStateForFrame(tierId, state) {
+  switch (tierId) {
+    case 'S_BRILLET':
+      if (state < 6) {
+        return {
+          badgeName: 'S-BRILLET',
+          badgeIconPath: '/svgs/points iucons/title-left-icon.svg',
+          pointsLabel: '(0 SPARKLE POINTS)',
+          pointsCompleted: false,
+          dividerClass: '',
+          actions: [
+            { text: 'Sign Up', points: '+40 Sparkle Points', checkIconPath: '/svgs/points iucons/initialcheckmark.svg', isCompleted: false }
+          ]
+        };
+      } else {
+        return {
+          badgeName: 'S-BRILLET',
+          badgeIconPath: '/svgs/points iucons/title-left-icon.svg',
+          pointsLabel: '(40 SPARKLE POINTS)',
+          pointsCompleted: true,
+          dividerClass: '',
+          actions: [
+            { text: 'Sign Up', points: '+40 Sparkle Points', checkIconPath: '/svgs/points iucons/change.svg', isCompleted: true }
+          ]
+        };
+      }
+    case 'SHINY':
+      if (state < 2) {
+        return {
+          badgeName: 'SHINY',
+          badgeIconPath: '/svgs/points iucons/title-left-icon.svg',
+          pointsLabel: '(100 SPARKLE POINTS)',
+          pointsCompleted: false,
+          dividerClass: '',
+          actions: [
+            { text: 'Follow us on Instagram', points: '+30 Sparkle Points', checkIconPath: '/svgs/points iucons/initialcheckmark.svg', isCompleted: false },
+            { text: 'Subscribe to Newsletter', points: '+30 Sparkle Points', checkIconPath: '/svgs/points iucons/initialcheckmark.svg', isCompleted: false }
+          ]
+        };
+      } else if (state < 4) {
+        return {
+          badgeName: 'SHINY',
+          badgeIconPath: '/svgs/points iucons/title-left-icon.svg',
+          pointsLabel: '(100 SPARKLE POINTS)',
+          pointsCompleted: false,
+          dividerClass: '',
+          actions: [
+            { text: 'Follow us on Instagram', points: '+30 Sparkle Points', checkIconPath: '/svgs/points iucons/change.svg', isCompleted: true },
+            { text: 'Subscribe to Newsletter', points: '+30 Sparkle Points', checkIconPath: '/svgs/points iucons/initialcheckmark.svg', isCompleted: false }
+          ]
+        };
+      } else if (state < 6) {
+        return {
+          badgeName: 'SHINY',
+          badgeIconPath: '/svgs/points iucons/title-left-icon.svg',
+          pointsLabel: '(100 SPARKLE POINTS)',
+          pointsCompleted: false,
+          dividerClass: '',
+          actions: [
+            { text: 'Follow us on Instagram', points: '+30 Sparkle Points', checkIconPath: '/svgs/points iucons/change.svg', isCompleted: true },
+            { text: 'Subscribe to Newsletter', points: '+30 Sparkle Points', checkIconPath: '/svgs/points iucons/change.svg', isCompleted: true }
+          ]
+        };
+      } else {
+        return {
+          badgeName: 'SHINY',
+          badgeIconPath: '/svgs/points iucons/title-left-icon.svg',
+          pointsLabel: '(100 SPARKLE POINTS)',
+          pointsCompleted: true,
+          dividerClass: '',
+          actions: [
+            { text: 'Follow us on Instagram', points: '+30 Sparkle Points', checkIconPath: '/svgs/points iucons/change.svg', isCompleted: true },
+            { text: 'Subscribe to Newsletter', points: '+30 Sparkle Points', checkIconPath: '/svgs/points iucons/change.svg', isCompleted: true }
+          ]
+        };
+      }
+    case 'STARLIGHT':
+      if (state < 2) {
+        return {
+          badgeName: 'STARLIGHT',
+          badgeIconPath: '/svgs/points iucons/statlight.svg',
+          pointsLabel: '(700 SPARKLE POINTS)',
+          pointsCompleted: false,
+          dividerClass: '',
+          actions: [
+            { text: 'Purchase Items', points: '$1 = +1.25 Sparkle Points', checkIconPath: '/svgs/points iucons/initialcheckmark.svg', isCompleted: false },
+            { text: 'Refer a Friend', points: '+ 125 Sparkle Points', checkIconPath: '/svgs/points iucons/initialcheckmark.svg', isCompleted: false }
+          ]
+        };
+      } else if (state < 4) {
+        return {
+          badgeName: 'STARLIGHT',
+          badgeIconPath: '/svgs/points iucons/statlight.svg',
+          pointsLabel: '(700 SPARKLE POINTS)',
+          pointsCompleted: false,
+          dividerClass: '',
+          actions: [
+            { text: 'Purchase Items', points: '$1 = +1.25 Sparkle Points', checkIconPath: '/svgs/points iucons/change.svg', isCompleted: true },
+            { text: 'Refer a Friend', points: '+ 125 Sparkle Points', checkIconPath: '/svgs/points iucons/initialcheckmark.svg', isCompleted: false }
+          ]
+        };
+      } else if (state < 6) {
+        return {
+          badgeName: 'STARLIGHT',
+          badgeIconPath: '/svgs/points iucons/statlight.svg',
+          pointsLabel: '(700 SPARKLE POINTS)',
+          pointsCompleted: false,
+          dividerClass: '',
+          actions: [
+            { text: 'Purchase Items', points: '$1 = +1.25 Sparkle Points', checkIconPath: '/svgs/points iucons/change.svg', isCompleted: true },
+            { text: 'Refer a Friend', points: '+ 125 Sparkle Points', checkIconPath: '/svgs/points iucons/change.svg', isCompleted: true }
+          ]
+        };
+      } else {
+        return {
+          badgeName: 'STARLIGHT',
+          badgeIconPath: '/svgs/points iucons/statlight.svg',
+          pointsLabel: '(700 SPARKLE POINTS)',
+          pointsCompleted: true,
+          dividerClass: '',
+          actions: [
+            { text: 'Purchase Items', points: '$1 = +1.25 Sparkle Points', checkIconPath: '/svgs/points iucons/change.svg', isCompleted: true },
+            { text: 'Refer a Friend', points: '+ 125 Sparkle Points', checkIconPath: '/svgs/points iucons/change.svg', isCompleted: true }
+          ]
+        };
+      }
+    case 'GALAXY':
+      if (state < 2) {
+        return {
+          badgeName: 'GALAXY',
+          badgeIconPath: '/svgs/points iucons/glaxy.svg',
+          pointsLabel: '(1000 SPARKLE POINTS)',
+          pointsCompleted: false,
+          dividerClass: 'galaxy-divider',
+          actions: [
+            { text: 'Purchase Items', points: '$1 = +1.50 Sparkle Points', checkIconPath: '/svgs/points iucons/initialcheckmark.svg', isCompleted: false },
+            { text: 'Refer a Friend', points: '+150 Sparkle Points', checkIconPath: '/svgs/points iucons/initialcheckmark.svg', isCompleted: false }
+          ]
+        };
+      } else if (state < 4) {
+        return {
+          badgeName: 'GALAXY',
+          badgeIconPath: '/svgs/points iucons/glaxy.svg',
+          pointsLabel: '(1000 SPARKLE POINTS)',
+          pointsCompleted: false,
+          dividerClass: 'galaxy-divider',
+          actions: [
+            { text: 'Purchase Items', points: '$1 = +1.50 Sparkle Points', checkIconPath: '/svgs/points iucons/galaxy-checkmark.svg', isCompleted: true },
+            { text: 'Refer a Friend', points: '+150 Sparkle Points', checkIconPath: '/svgs/points iucons/initialcheckmark.svg', isCompleted: false }
+          ]
+        };
+      } else if (state < 6) {
+        return {
+          badgeName: 'GALAXY',
+          badgeIconPath: '/svgs/points iucons/glaxy.svg',
+          pointsLabel: '(1000 SPARKLE POINTS)',
+          pointsCompleted: false,
+          dividerClass: 'galaxy-divider',
+          actions: [
+            { text: 'Purchase Items', points: '$1 = +1.50 Sparkle Points', checkIconPath: '/svgs/points iucons/galaxy-checkmark.svg', isCompleted: true },
+            { text: 'Refer a Friend', points: '+150 Sparkle Points', checkIconPath: '/svgs/points iucons/galaxy-checkmark.svg', isCompleted: true }
+          ]
+        };
+      } else {
+        return {
+          badgeName: 'GALAXY',
+          badgeIconPath: '/svgs/points iucons/glaxy.svg',
+          pointsLabel: '(1000 SPARKLE POINTS)',
+          pointsCompleted: true,
+          dividerClass: 'galaxy-divider',
+          actions: [
+            { text: 'Purchase Items', points: '$1 = +1.50 Sparkle Points', checkIconPath: '/svgs/points iucons/galaxy-checkmark.svg', isCompleted: true },
+            { text: 'Refer a Friend', points: '+150 Sparkle Points', checkIconPath: '/svgs/points iucons/galaxy-checkmark.svg', isCompleted: true }
+          ]
+        };
+      }
+    case 'ULTRA_GALAXY':
+      return {
+        badgeName: 'ULTRA GALAXY (+4000SPARKLE-POINTS)',
+        badgeIconPath: '/svgs/points iucons/glaxy.svg',
+        pointsLabel: '',
+        pointsCompleted: false,
+        dividerClass: '',
+        actions: [
+          { text: 'Purchase Items', points: '$1 = +1.50 Sparkle Points', checkIconPath: '/svgs/points iucons/galaxy-checkmark.svg', isCompleted: true },
+          { text: 'Refer a Friend', points: '+150 Sparkle Points', checkIconPath: '/svgs/points iucons/galaxy-checkmark.svg', isCompleted: true }
+        ]
+      };
+    default:
+      return null;
+  }
+}
+
 // ─── Animation Timeline ─────────────────────────────────────
 
 /**
@@ -178,6 +373,7 @@ export function buildAnimationSequence() {
         svgPath: `/svgs/circles/${tier.svgPrefix}-${state}.svg`,
         starPath,
         points: tier.pointsDisplay,
+        cardState: getCardStateForFrame(tier.id, state),
         // First frame of a new tier gets a longer hold + transition flag
         isTierStart: state === 0,
         // Last frame of a tier gets a brief pause

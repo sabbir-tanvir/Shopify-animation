@@ -20,15 +20,16 @@ const DOM = {
   tierName: document.getElementById('tier-name'),
   tierIcon: document.getElementById('tier-icon'),
   tierPointsLabel: document.getElementById('tier-points-label'),
-  tierActionPrimary: document.getElementById('tier-action-primary'),
-  tierActionSecondary: document.getElementById('tier-action-secondary'),
+  tierDivider: document.getElementById('tier-divider'),
+  tierActionsContainer: document.getElementById('tier-actions-container'),
+  tierInfoInner: document.getElementById('tier-info-inner'),
   sparkleStarIcon: document.getElementById('sparkle-star-icon'),
   counterNumberContainer: document.getElementById('sparkle-counter-number-container'),
   tierInfoCard: document.getElementById('tier-info-card'),
   earnSparkle: document.getElementById('earn-sparkle-content'),
 };
 
-// Helper to trigger CSS fade-up animation
+// Helper to trigger CSS fade-up animation (for counter)
 function triggerFadeUp(element) {
   if (!element) return;
   element.classList.remove('fade-up-anim');
@@ -42,57 +43,105 @@ const circle = new CircleAnimation();
 const counter = new CounterAnimation();
 const sequence = buildAnimationSequence();
 
-// ─── Preload All SVGs (Circles + Stars) ──────────────────────
+// ─── Preload All SVGs ───────────────────────────────────────
 
 const allCircleSvgs = sequence.map((frame) => frame.svgPath);
 const allStarSvgs = sequence.map((frame) => frame.starPath);
-circle.preload([...allCircleSvgs, ...allStarSvgs]);
+const extraSvgs = [
+  '/svgs/points%20iucons/initialcheckmark.svg',
+  '/svgs/points%20iucons/change.svg',
+  '/svgs/points%20iucons/galaxy-checkmark.svg',
+  '/svgs/points%20iucons/title-left-icon.svg',
+  '/svgs/points%20iucons/statlight.svg',
+  '/svgs/points%20iucons/glaxy.svg',
+  '/svgs/points iucons/initialcheckmark.svg',
+  '/svgs/points iucons/change.svg',
+  '/svgs/points iucons/galaxy-checkmark.svg',
+  '/svgs/points iucons/title-left-icon.svg',
+  '/svgs/points iucons/statlight.svg',
+  '/svgs/points iucons/glaxy.svg'
+];
+circle.preload([...allCircleSvgs, ...allStarSvgs, ...extraSvgs]);
 
-// ─── Tier Info Updater ──────────────────────────────────────
+// ─── Actions Card Updater ────────────────────────────────────
 
-let currentTierId = null;
+let currentCardStateStr = '';
 
-function updateTierInfo(tier) {
-  if (tier.id === currentTierId) return;
-  currentTierId = tier.id;
+function updateCard(cardState, tierColors) {
+  const cardStateStr = JSON.stringify(cardState);
+  if (cardStateStr === currentCardStateStr) {
+    if (tierColors) {
+      applyTierColors(tierColors);
+    }
+    return;
+  }
+  currentCardStateStr = cardStateStr;
 
-  // Fade out text elements first
-  DOM.tierName.style.opacity = 0;
-  DOM.tierPointsLabel.style.opacity = 0;
-  DOM.tierActionPrimary.style.opacity = 0;
-  DOM.tierActionSecondary.style.opacity = 0;
+  // Trigger smooth fade-out and slide-down transition
+  DOM.tierInfoInner.classList.remove('visible');
 
+  // Wait 300ms for fade-out, then update content
   setTimeout(() => {
-    DOM.tierName.textContent = tier.name;
-    DOM.tierIcon.textContent = tier.icon;
-    DOM.tierPointsLabel.textContent = `(${tier.pointsDisplay} SPARKLE POINTS)`;
+    // 1. Update Title and Icon
+    DOM.tierName.textContent = cardState.badgeName;
+    DOM.tierIcon.src = cardState.badgeIconPath;
 
-    // Update action buttons
-    DOM.tierActionPrimary.innerHTML = `
-      <span class="tier-action__check">${tier.actions.primary.icon}</span>
-      <span class="tier-action__text">${tier.actions.primary.text}</span>
-    `;
-    DOM.tierActionSecondary.innerHTML = `
-      <span class="tier-action__text">${tier.actions.secondary.text}</span>
-    `;
-
-    // Update colors dynamically
-    if (tier.colors) {
-      DOM.earnSparkle.style.setProperty('--tier-bg-outer', tier.colors.bgOuter);
-      DOM.earnSparkle.style.setProperty('--tier-border-outer', tier.colors.borderOuter);
-      DOM.earnSparkle.style.setProperty('--tier-bg-inner', tier.colors.bgInner);
-      DOM.earnSparkle.style.setProperty('--tier-border-inner', tier.colors.borderInner);
-      DOM.earnSparkle.style.setProperty('--tier-bg-counter', tier.colors.bgCounter);
-      DOM.earnSparkle.style.setProperty('--tier-border-counter', tier.colors.borderCounter);
-      DOM.earnSparkle.style.setProperty('--tier-text', tier.colors.text);
+    // 2. Update Points label text and completed classes
+    DOM.tierPointsLabel.textContent = cardState.pointsLabel;
+    
+    // Reset points class
+    DOM.tierPointsLabel.className = 'tier-points-label';
+    if (cardState.pointsCompleted) {
+      if (cardState.dividerClass === 'galaxy-divider') {
+        DOM.tierPointsLabel.classList.add('title-points-completed-galaxy');
+      } else {
+        DOM.tierPointsLabel.classList.add('title-points-completed');
+      }
     }
 
-    // Fade them back in smoothly
-    DOM.tierName.style.opacity = 1;
-    DOM.tierPointsLabel.style.opacity = 1;
-    DOM.tierActionPrimary.style.opacity = 1;
-    DOM.tierActionSecondary.style.opacity = 1;
+    // 3. Update Divider Class
+    DOM.tierDivider.className = 'tier-info__divider';
+    if (cardState.dividerClass) {
+      DOM.tierDivider.classList.add(cardState.dividerClass);
+    }
+
+    // 4. Update Dynamic Actions Rows
+    const isGalaxy = cardState.dividerClass === 'galaxy-divider';
+    DOM.tierActionsContainer.innerHTML = cardState.actions.map(action => {
+      const textClass = action.isCompleted 
+        ? (isGalaxy ? 'text-gradient-completed-galaxy' : 'text-gradient-completed')
+        : '';
+      return `
+        <div class="tier-action-row">
+          <div class="tier-action-left">
+            <img class="tier-action__check-img" src="${action.checkIconPath}" alt="Check" />
+            <span class="tier-action__text ${textClass}">${action.text}</span>
+          </div>
+          <div class="tier-action-right">
+            <span class="tier-action__points-text ${textClass}">${action.points}</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Apply tier colors (border, shadow, background of the outer card)
+    if (tierColors) {
+      applyTierColors(tierColors);
+    }
+
+    // 5. Trigger slide-up and fade-in
+    DOM.tierInfoInner.classList.add('visible');
   }, 300);
+}
+
+function applyTierColors(colors) {
+  DOM.earnSparkle.style.setProperty('--tier-bg-outer', colors.bgOuter);
+  DOM.earnSparkle.style.setProperty('--tier-border-outer', colors.borderOuter);
+  DOM.earnSparkle.style.setProperty('--tier-bg-inner', colors.bgInner);
+  DOM.earnSparkle.style.setProperty('--tier-border-inner', colors.borderInner);
+  DOM.earnSparkle.style.setProperty('--tier-bg-counter', colors.bgCounter);
+  DOM.earnSparkle.style.setProperty('--tier-border-counter', colors.borderCounter);
+  DOM.earnSparkle.style.setProperty('--tier-text', colors.text);
 }
 
 // ─── Animation Controller ───────────────────────────────────
@@ -110,17 +159,16 @@ function playFrame() {
     if (TIMING.loop) {
       // Reset and loop
       frameIndex = 0;
-      currentTierId = null;
+      currentCardStateStr = '';
       currentStarPath = null;
 
       const firstFrame = sequence[0];
       circle.setFrame(firstFrame.svgPath);
       counter.set(firstFrame.points);
-      updateTierInfo(firstFrame.tier);
+      updateCard(firstFrame.cardState, firstFrame.tier.colors);
       DOM.sparkleStarIcon.src = firstFrame.starPath;
       currentStarPath = firstFrame.starPath;
       triggerFadeUp(DOM.counterNumberContainer);
-      triggerFadeUp(DOM.tierInfoCard);
 
       timeoutId = setTimeout(playFrame, TIMING.loopPause);
       return;
@@ -136,8 +184,8 @@ function playFrame() {
   // 1. Update circle SVG
   circle.showFrame(frame.svgPath, isTierChange);
 
-  // 2. Update tier info (only on tier change)
-  updateTierInfo(frame.tier);
+  // 2. Update card content and layout
+  updateCard(frame.cardState, frame.tier.colors);
 
   // 3. Update star SVG next to point counter
   if (frame.starPath !== currentStarPath) {
@@ -145,11 +193,10 @@ function playFrame() {
     DOM.sparkleStarIcon.src = frame.starPath;
   }
 
-  // 4. Animate counter and info card on tier change
+  // 4. Animate counter on tier change
   if (isTierChange) {
     counter.animateTo(frame.points, TIMING.counterAnimDuration);
     triggerFadeUp(DOM.counterNumberContainer);
-    triggerFadeUp(DOM.tierInfoCard);
   }
 
   // Calculate hold duration for this frame
@@ -173,18 +220,17 @@ function startAnimation() {
   if (isPlaying) return;
   isPlaying = true;
   frameIndex = 0;
-  currentTierId = null;
+  currentCardStateStr = '';
   currentStarPath = null;
 
   // Set initial state
   const firstFrame = sequence[0];
   circle.setFrame(firstFrame.svgPath);
   counter.set(firstFrame.points);
-  updateTierInfo(firstFrame.tier);
+  updateCard(firstFrame.cardState, firstFrame.tier.colors);
   DOM.sparkleStarIcon.src = firstFrame.starPath;
   currentStarPath = firstFrame.starPath;
   triggerFadeUp(DOM.counterNumberContainer);
-  triggerFadeUp(DOM.tierInfoCard);
 
   // Begin after delay
   frameIndex = 1;
