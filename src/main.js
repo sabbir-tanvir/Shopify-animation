@@ -198,8 +198,9 @@ function playFrame() {
     DOM.sparkleStarIcon.src = frame.starPath;
   }
 
-  // 4. Animate counter on tier change
-  if (isTierChange) {
+  // 4. Animate counter on points change
+  const isPointsChange = prevFrame && prevFrame.points !== frame.points;
+  if (isPointsChange) {
     counter.animateTo(frame.points, TIMING.counterAnimDuration);
     triggerFadeUp(DOM.counterNumberContainer);
   }

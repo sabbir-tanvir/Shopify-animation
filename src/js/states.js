@@ -145,14 +145,40 @@ export const TIER_ORDER = [
 
 // ─── Card State Mapping ─────────────────────────────────────
 
+function getPointsForFrame(tierId, state) {
+  switch (tierId) {
+    case 'S_BRILLET':
+      return state < 6 ? 0 : 40;
+    case 'SHINY':
+      if (state < 2) return 40;
+      if (state < 4) return 70;
+      return 100;
+    case 'STARLIGHT':
+      if (state < 2) return 100;
+      if (state < 4) return 575;
+      return 700;
+    case 'GALAXY':
+      if (state < 2) return 700;
+      if (state < 4) return 850;
+      return 1000;
+    case 'ULTRA_GALAXY':
+      return 1000;
+    default:
+      return 0;
+  }
+}
+
 function getCardStateForFrame(tierId, state) {
+  const pts = getPointsForFrame(tierId, state);
+  const pointsLabel = tierId === 'ULTRA_GALAXY' ? '' : `(${pts} SPARKLE POINTS)`;
+
   switch (tierId) {
     case 'S_BRILLET':
       if (state < 6) {
         return {
           badgeName: 'S-BRILLET',
           badgeIconPath: '/svgs/points iucons/title-left-icon.svg',
-          pointsLabel: '(0 SPARKLE POINTS)',
+          pointsLabel,
           pointsCompleted: false,
           dividerClass: '',
           actions: [
@@ -163,7 +189,7 @@ function getCardStateForFrame(tierId, state) {
         return {
           badgeName: 'S-BRILLET',
           badgeIconPath: '/svgs/points iucons/title-left-icon.svg',
-          pointsLabel: '(40 SPARKLE POINTS)',
+          pointsLabel,
           pointsCompleted: true,
           dividerClass: '',
           actions: [
@@ -176,7 +202,7 @@ function getCardStateForFrame(tierId, state) {
         return {
           badgeName: 'SHINY',
           badgeIconPath: '/svgs/points iucons/title-left-icon.svg',
-          pointsLabel: '(100 SPARKLE POINTS)',
+          pointsLabel,
           pointsCompleted: false,
           dividerClass: '',
           actions: [
@@ -188,7 +214,7 @@ function getCardStateForFrame(tierId, state) {
         return {
           badgeName: 'SHINY',
           badgeIconPath: '/svgs/points iucons/title-left-icon.svg',
-          pointsLabel: '(100 SPARKLE POINTS)',
+          pointsLabel,
           pointsCompleted: false,
           dividerClass: '',
           actions: [
@@ -200,7 +226,7 @@ function getCardStateForFrame(tierId, state) {
         return {
           badgeName: 'SHINY',
           badgeIconPath: '/svgs/points iucons/title-left-icon.svg',
-          pointsLabel: '(100 SPARKLE POINTS)',
+          pointsLabel,
           pointsCompleted: false,
           dividerClass: '',
           actions: [
@@ -212,7 +238,7 @@ function getCardStateForFrame(tierId, state) {
         return {
           badgeName: 'SHINY',
           badgeIconPath: '/svgs/points iucons/title-left-icon.svg',
-          pointsLabel: '(100 SPARKLE POINTS)',
+          pointsLabel,
           pointsCompleted: true,
           dividerClass: '',
           actions: [
@@ -226,7 +252,7 @@ function getCardStateForFrame(tierId, state) {
         return {
           badgeName: 'STARLIGHT',
           badgeIconPath: '/svgs/points iucons/statlight.svg',
-          pointsLabel: '(700 SPARKLE POINTS)',
+          pointsLabel,
           pointsCompleted: false,
           dividerClass: '',
           actions: [
@@ -238,7 +264,7 @@ function getCardStateForFrame(tierId, state) {
         return {
           badgeName: 'STARLIGHT',
           badgeIconPath: '/svgs/points iucons/statlight.svg',
-          pointsLabel: '(700 SPARKLE POINTS)',
+          pointsLabel,
           pointsCompleted: false,
           dividerClass: '',
           actions: [
@@ -250,7 +276,7 @@ function getCardStateForFrame(tierId, state) {
         return {
           badgeName: 'STARLIGHT',
           badgeIconPath: '/svgs/points iucons/statlight.svg',
-          pointsLabel: '(700 SPARKLE POINTS)',
+          pointsLabel,
           pointsCompleted: false,
           dividerClass: '',
           actions: [
@@ -262,7 +288,7 @@ function getCardStateForFrame(tierId, state) {
         return {
           badgeName: 'STARLIGHT',
           badgeIconPath: '/svgs/points iucons/statlight.svg',
-          pointsLabel: '(700 SPARKLE POINTS)',
+          pointsLabel,
           pointsCompleted: true,
           dividerClass: '',
           actions: [
@@ -276,7 +302,7 @@ function getCardStateForFrame(tierId, state) {
         return {
           badgeName: 'GALAXY',
           badgeIconPath: '/svgs/points iucons/glaxy.svg',
-          pointsLabel: '(1000 SPARKLE POINTS)',
+          pointsLabel,
           pointsCompleted: false,
           dividerClass: 'galaxy-divider',
           actions: [
@@ -288,7 +314,7 @@ function getCardStateForFrame(tierId, state) {
         return {
           badgeName: 'GALAXY',
           badgeIconPath: '/svgs/points iucons/glaxy.svg',
-          pointsLabel: '(1000 SPARKLE POINTS)',
+          pointsLabel,
           pointsCompleted: false,
           dividerClass: 'galaxy-divider',
           actions: [
@@ -300,7 +326,7 @@ function getCardStateForFrame(tierId, state) {
         return {
           badgeName: 'GALAXY',
           badgeIconPath: '/svgs/points iucons/glaxy.svg',
-          pointsLabel: '(1000 SPARKLE POINTS)',
+          pointsLabel,
           pointsCompleted: false,
           dividerClass: 'galaxy-divider',
           actions: [
@@ -312,7 +338,7 @@ function getCardStateForFrame(tierId, state) {
         return {
           badgeName: 'GALAXY',
           badgeIconPath: '/svgs/points iucons/glaxy.svg',
-          pointsLabel: '(1000 SPARKLE POINTS)',
+          pointsLabel,
           pointsCompleted: true,
           dividerClass: 'galaxy-divider',
           actions: [
@@ -325,7 +351,7 @@ function getCardStateForFrame(tierId, state) {
       return {
         badgeName: 'ULTRA GALAXY (+4000SPARKLE-POINTS)',
         badgeIconPath: '/svgs/points iucons/glaxy.svg',
-        pointsLabel: '',
+        pointsLabel,
         pointsCompleted: false,
         dividerClass: '',
         actions: [
@@ -372,7 +398,7 @@ export function buildAnimationSequence() {
         circleState: state,
         svgPath: `/svgs/circles/${tier.svgPrefix}-${state}.svg`,
         starPath,
-        points: tier.pointsDisplay,
+        points: getPointsForFrame(tier.id, state),
         cardState: getCardStateForFrame(tier.id, state),
         // First frame of a new tier gets a longer hold + transition flag
         isTierStart: state === 0,
