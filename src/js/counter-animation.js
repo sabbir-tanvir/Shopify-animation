@@ -10,6 +10,7 @@ export class CounterAnimation {
     this.valueEl = document.getElementById('sparkle-value');
     this.currentValue = 0;
     this._animationId = null;
+    this.onUpdate = null;
   }
 
   /**
@@ -18,6 +19,9 @@ export class CounterAnimation {
   set(value) {
     this.currentValue = value;
     this.valueEl.textContent = value;
+    if (this.onUpdate) {
+      this.onUpdate(value);
+    }
     this._cancelAnimation();
   }
 
@@ -52,12 +56,18 @@ export class CounterAnimation {
         const current = Math.round(start + diff * eased);
         this.valueEl.textContent = current;
         this.currentValue = current;
+        if (this.onUpdate) {
+          this.onUpdate(current);
+        }
 
         if (progress < 1) {
           this._animationId = requestAnimationFrame(step);
         } else {
           this.currentValue = target;
           this.valueEl.textContent = target;
+          if (this.onUpdate) {
+            this.onUpdate(target);
+          }
           resolve();
         }
       };

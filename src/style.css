@@ -504,55 +504,64 @@ img {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 15px;
-  /* gap 15px per user request */
   height: calc(100% - 28px);
 }
-
 .reward-card {
-  background: var(--bg-card);
+  position: relative;
+  background: #FAFAFA99;
   border-radius: var(--radius-md);
-  padding: 16px 8px;
   box-shadow: var(--shadow-card);
+  border: 1px solid transparent;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
-  text-align: center;
-  transition: all var(--transition-normal);
+  justify-content: space-between; /* Center and space items evenly */
+  padding: 20px;
   height: 100%;
+  transition: all var(--transition-normal);
 }
 
 .reward-card.locked {
-  opacity: 0.85;
+  opacity: 1;
 }
 
-.reward-card.unlocked {
+.reward-card.unlocked-initial {
   background: var(--bg-white);
-  box-shadow: var(--shadow-card), 0 0 0 1px var(--accent-warm-light);
+  border: 1px solid #E6D7CB; /* warm border */
+}
+
+.reward-card.unlocked-galaxy {
+  background: var(--bg-white);
+  border: 1px solid #2E253A; /* dark purple Galaxy border */
 }
 
 .reward-card__icon-wrap {
-  width: 32px;
-  height: 32px;
+  width: 64px;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .reward-card__lock {
-  width: 22px;
-  height: 22px;
-  color: var(--grey-mid);
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  opacity: 1;
 }
 
 .reward-card__text {
-  font-size: 7.5px;
-  font-weight: 600;
-  letter-spacing: 0.8px;
-  line-height: 1.4;
-  color: var(--text-muted);
-  text-transform: uppercase;
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  line-height: 20px !important;
+  letter-spacing: 0px !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+  text-transform: uppercase !important;
+  color: var(--text-primary) !important;
+  margin: 0;
+  width: 100%;
 }
 
 

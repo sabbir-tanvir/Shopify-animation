@@ -12,7 +12,7 @@
 import './style.css';
 import { CircleAnimation } from './js/circle-animation.js';
 import { CounterAnimation } from './js/counter-animation.js';
-import { buildAnimationSequence, TIMING, TIER_ORDER } from './js/states.js';
+import { buildAnimationSequence, TIMING, TIER_ORDER, REWARD_UNLOCKS } from './js/states.js';
 
 // ─── DOM References ─────────────────────────────────────────
 
@@ -43,6 +43,50 @@ const circle = new CircleAnimation();
 const counter = new CounterAnimation();
 const sequence = buildAnimationSequence();
 
+// ─── Reward Icons Mapping ────────────────────────────────────
+const REWARD_ICONS = {
+  'reward-welcome': {
+    initial: '/svgs/tier-rewards/wellcomeInitial.svg',
+    galaxy: '/svgs/tier-rewards/wellcomeGalaxy.svg'
+  },
+  'reward-shipping': {
+    initial: '/svgs/tier-rewards/Free-initial.svg',
+    galaxy: '/svgs/tier-rewards/Free-Galaxy (1).svg'
+  },
+  'reward-theme': {
+    initial: '/svgs/tier-rewards/theme-Messege- initial.svg',
+    galaxy: '/svgs/tier-rewards/theme-Messege- galaxy.svg'
+  },
+  'reward-birthday': {
+    initial: '/svgs/tier-rewards/Birthday initial(2).svg',
+    galaxy: '/svgs/tier-rewards/Birthday galaxy (1).svg'
+  },
+  'reward-saving': {
+    initial: '/svgs/tier-rewards/saving(1)-initial.svg',
+    galaxy: '/svgs/tier-rewards/saving(2)-galaxy.svg'
+  },
+  'reward-warranty': {
+    initial: '/svgs/tier-rewards/2years (2) initial.svg',
+    galaxy: '/svgs/tier-rewards/2years (1) galaxy.svg'
+  },
+  'reward-collections': {
+    initial: '/svgs/tier-rewards/viewnew (1) initial.svg',
+    galaxy: '/svgs/tier-rewards/view new galaxy.svg'
+  },
+  'reward-chat': {
+    initial: '/svgs/tier-rewards/live-support (1)initial.svg',
+    galaxy: '/svgs/tier-rewards/live-support (2)galaxy.svg'
+  },
+  'reward-giveaway': {
+    initial: '/svgs/tier-rewards/free-giveway-init.svg',
+    galaxy: '/svgs/tier-rewards/freegiveway-galaxy.svg'
+  },
+  'reward-vote': {
+    initial: '/svgs/tier-rewards/viewnew (1) initial.svg',
+    galaxy: '/svgs/tier-rewards/view new galaxy.svg'
+  }
+};
+
 // ─── Preload All SVGs ───────────────────────────────────────
 
 const allCircleSvgs = sequence.map((frame) => frame.svgPath);
@@ -61,7 +105,48 @@ const extraSvgs = [
   '/svgs/points iucons/statlight.svg',
   '/svgs/points iucons/glaxy.svg'
 ];
-circle.preload([...allCircleSvgs, ...allStarSvgs, ...extraSvgs]);
+
+const rewardSvgs = Object.values(REWARD_ICONS).flatMap(icons => [icons.initial, icons.galaxy]);
+rewardSvgs.push('/svgs/tier-rewards/locked.svg');
+
+circle.preload([...allCircleSvgs, ...allStarSvgs, ...extraSvgs, ...rewardSvgs]);
+
+// ─── Update Reward Cards ─────────────────────────────────────
+function updateRewardCards(points) {
+  for (const [cardId, threshold] of Object.entries(REWARD_UNLOCKS)) {
+    const cardEl = document.getElementById(cardId);
+    if (!cardEl) continue;
+
+    const imgEl = cardEl.querySelector('.reward-card__lock');
+    if (points >= threshold) {
+      cardEl.classList.remove('locked');
+      if (points < 700) {
+        cardEl.classList.add('unlocked-initial');
+        cardEl.classList.remove('unlocked-galaxy');
+        if (imgEl && !imgEl.src.endsWith(REWARD_ICONS[cardId].initial)) {
+          imgEl.src = REWARD_ICONS[cardId].initial;
+        }
+      } else {
+        cardEl.classList.add('unlocked-galaxy');
+        cardEl.classList.remove('unlocked-initial');
+        if (imgEl && !imgEl.src.endsWith(REWARD_ICONS[cardId].galaxy)) {
+          imgEl.src = REWARD_ICONS[cardId].galaxy;
+        }
+      }
+    } else {
+      cardEl.classList.add('locked');
+      cardEl.classList.remove('unlocked-initial', 'unlocked-galaxy');
+      if (imgEl && !imgEl.src.endsWith('/svgs/tier-rewards/locked.svg')) {
+        imgEl.src = '/svgs/tier-rewards/locked.svg';
+      }
+    }
+  }
+}
+
+// Hook up dynamic reward unlocking to the counter
+counter.onUpdate = (val) => {
+  updateRewardCards(val);
+};
 
 // ─── Actions Card Updater ────────────────────────────────────
 
