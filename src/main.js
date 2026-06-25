@@ -108,9 +108,14 @@ function updateCard(cardState, tierColors) {
     // 4. Update Dynamic Actions Rows
     const isGalaxy = cardState.dividerClass === 'galaxy-divider';
     DOM.tierActionsContainer.innerHTML = cardState.actions.map(action => {
-      const textClass = action.isCompleted 
+      let textClass = action.isCompleted 
         ? (isGalaxy ? 'text-gradient-completed-galaxy' : 'text-gradient-completed')
         : '';
+      
+      if (cardState.pointsCompleted) {
+        textClass += ' action-text-completed';
+      }
+
       return `
         <div class="tier-action-row">
           <div class="tier-action-left">
