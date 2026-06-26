@@ -75,6 +75,17 @@ const first1000Index = sequence.findIndex(f => f.points === 1000);
 const timeTo700 = first700Index !== -1 ? frameTimestamps[first700Index] : 20000;
 const timeTo1000 = first1000Index !== -1 ? frameTimestamps[first1000Index] : 25000;
 
+// Tier start timestamps for bundle deals smooth time-based animation
+const shinyStartIndex = sequence.findIndex(f => f.tier.id === 'SHINY');
+const starlightStartIndex = sequence.findIndex(f => f.tier.id === 'STARLIGHT');
+const galaxyStartIndex = sequence.findIndex(f => f.tier.id === 'GALAXY');
+const ultraGalaxyStartIndex = sequence.findIndex(f => f.tier.id === 'ULTRA_GALAXY');
+
+const tShinyStart = shinyStartIndex !== -1 ? frameTimestamps[shinyStartIndex] : 0;
+const tStarlightStart = starlightStartIndex !== -1 ? frameTimestamps[starlightStartIndex] : 0;
+const tGalaxyStart = galaxyStartIndex !== -1 ? frameTimestamps[galaxyStartIndex] : 0;
+const tUltraGalaxyStart = ultraGalaxyStartIndex !== -1 ? frameTimestamps[ultraGalaxyStartIndex] : 999999;
+
 const REWARD_ORDER = [
   'reward-welcome',
   'reward-shipping',
@@ -186,7 +197,7 @@ const BUNDLE_SVG_PATHS = {
   gl_plus_fill: '/svgs/bundle-deals/Property 1=GL Plus.svg'
 };
 
-function updateBundleDeals(points) {
+function updateBundleDeals(elapsed) {
   const bundleCard = document.querySelector('.bundle-deals__content');
   const bundleLabel = document.getElementById('bundle-label');
   const bundleIcons = document.querySelectorAll('#bundle-icons .bundle-icon__img');
@@ -197,62 +208,79 @@ function updateBundleDeals(points) {
   let themeClass = BUNDLE_THEMES.locked;
   let iconSrcs = [];
   
-  if (points < 40) {
-    labelText = 'LEVEL UP TO SHINY TIER';
+  if (elapsed < tStarlightStart) {
     themeClass = BUNDLE_THEMES.locked;
     iconSrcs = [BUNDLE_SVG_PATHS.lock, BUNDLE_SVG_PATHS.lock, BUNDLE_SVG_PATHS.lock, BUNDLE_SVG_PATHS.lock];
-  } else if (points < 100) {
-    labelText = 'LEVEL UP TO STARLIGHT TIER';
-    themeClass = BUNDLE_THEMES.locked;
-    iconSrcs = [BUNDLE_SVG_PATHS.lock, BUNDLE_SVG_PATHS.lock, BUNDLE_SVG_PATHS.lock, BUNDLE_SVG_PATHS.lock];
-  } else if (points < 200) {
-    labelText = 'UNLOCKED STARLIGHT TIER LEVEL';
+    if (elapsed < tShinyStart) {
+      labelText = 'LEVEL UP TO SHINY TIER';
+    } else {
+      labelText = 'LEVEL UP TO STARLIGHT TIER';
+    }
+  } else if (elapsed < tGalaxyStart) {
     themeClass = BUNDLE_THEMES.starlight;
-    iconSrcs = [BUNDLE_SVG_PATHS.st_1_out, BUNDLE_SVG_PATHS.st_2_out, BUNDLE_SVG_PATHS.st_3_out, BUNDLE_SVG_PATHS.st_plus_out];
-  } else if (points < 300) {
-    labelText = 'BUY 1ST | SAVE 20%';
-    themeClass = BUNDLE_THEMES.starlight;
-    iconSrcs = [BUNDLE_SVG_PATHS.st_1_fill, BUNDLE_SVG_PATHS.st_2_out, BUNDLE_SVG_PATHS.st_3_out, BUNDLE_SVG_PATHS.st_sparkle_out];
-  } else if (points < 400) {
-    labelText = 'BUY 2ND | SAVE 25%';
-    themeClass = BUNDLE_THEMES.starlight;
-    iconSrcs = [BUNDLE_SVG_PATHS.st_1_fill, BUNDLE_SVG_PATHS.st_2_fill, BUNDLE_SVG_PATHS.st_3_out, BUNDLE_SVG_PATHS.st_plus_out];
-  } else if (points < 500) {
-    labelText = 'BUY 3RD | SAVE 35%';
-    themeClass = BUNDLE_THEMES.starlight;
-    iconSrcs = [BUNDLE_SVG_PATHS.st_1_fill, BUNDLE_SVG_PATHS.st_2_fill, BUNDLE_SVG_PATHS.st_3_fill, BUNDLE_SVG_PATHS.st_sparkle_out];
-  } else if (points < 600) {
-    labelText = 'GET 1 + 1 FREE ON NEXT ORDER';
-    themeClass = BUNDLE_THEMES.starlight;
-    iconSrcs = [BUNDLE_SVG_PATHS.st_1_fill, BUNDLE_SVG_PATHS.st_2_fill, BUNDLE_SVG_PATHS.st_3_fill, BUNDLE_SVG_PATHS.st_plus_fill];
-  } else if (points < 700) {
-    labelText = 'GET 1 + 1 FREE ON NEXT ORDER';
-    themeClass = BUNDLE_THEMES.starlight;
-    iconSrcs = [BUNDLE_SVG_PATHS.st_1_fill, BUNDLE_SVG_PATHS.st_2_fill, BUNDLE_SVG_PATHS.st_3_fill, BUNDLE_SVG_PATHS.st_sparkle_fill];
-  } else if (points < 750) {
-    labelText = 'UNLOCKED GALAXY TIER LEVEL';
+    const dt = elapsed - tStarlightStart;
+    // Step delay of 800ms
+    if (dt < 800) {
+      labelText = 'UNLOCKED STARLIGHT TIER LEVEL';
+      iconSrcs = [BUNDLE_SVG_PATHS.lock, BUNDLE_SVG_PATHS.lock, BUNDLE_SVG_PATHS.lock, BUNDLE_SVG_PATHS.lock];
+    } else if (dt < 1600) {
+      labelText = 'UNLOCKED STARLIGHT TIER LEVEL';
+      iconSrcs = [BUNDLE_SVG_PATHS.st_1_fill, BUNDLE_SVG_PATHS.lock, BUNDLE_SVG_PATHS.lock, BUNDLE_SVG_PATHS.lock];
+    } else if (dt < 2400) {
+      labelText = 'UNLOCKED STARLIGHT TIER LEVEL';
+      iconSrcs = [BUNDLE_SVG_PATHS.st_1_fill, BUNDLE_SVG_PATHS.st_2_fill, BUNDLE_SVG_PATHS.lock, BUNDLE_SVG_PATHS.lock];
+    } else if (dt < 3200) {
+      labelText = 'UNLOCKED STARLIGHT TIER LEVEL';
+      iconSrcs = [BUNDLE_SVG_PATHS.st_1_fill, BUNDLE_SVG_PATHS.st_2_fill, BUNDLE_SVG_PATHS.st_3_fill, BUNDLE_SVG_PATHS.lock];
+    } else if (dt < 4000) {
+      labelText = 'UNLOCKED STARLIGHT TIER LEVEL';
+      iconSrcs = [BUNDLE_SVG_PATHS.st_1_fill, BUNDLE_SVG_PATHS.st_2_fill, BUNDLE_SVG_PATHS.st_3_fill, BUNDLE_SVG_PATHS.st_sparkle_fill];
+    } else if (dt < 4800) {
+      labelText = 'BUY 1ST | SAVE 20%';
+      iconSrcs = [BUNDLE_SVG_PATHS.st_1_out, BUNDLE_SVG_PATHS.st_2_fill, BUNDLE_SVG_PATHS.st_3_fill, BUNDLE_SVG_PATHS.st_sparkle_fill];
+    } else if (dt < 5600) {
+      labelText = 'BUY 2ND | SAVE 25%';
+      iconSrcs = [BUNDLE_SVG_PATHS.st_1_out, BUNDLE_SVG_PATHS.st_2_out, BUNDLE_SVG_PATHS.st_3_fill, BUNDLE_SVG_PATHS.st_sparkle_fill];
+    } else if (dt < 6400) {
+      labelText = 'BUY 3RD | SAVE 35%';
+      iconSrcs = [BUNDLE_SVG_PATHS.st_1_out, BUNDLE_SVG_PATHS.st_2_out, BUNDLE_SVG_PATHS.st_3_out, BUNDLE_SVG_PATHS.st_sparkle_fill];
+    } else {
+      labelText = 'GET 1 + 1 FREE ON NEXT ORDER';
+      iconSrcs = [BUNDLE_SVG_PATHS.st_1_out, BUNDLE_SVG_PATHS.st_2_out, BUNDLE_SVG_PATHS.st_3_out, BUNDLE_SVG_PATHS.st_sparkle_out];
+    }
+  } else if (elapsed < tUltraGalaxyStart) {
     themeClass = BUNDLE_THEMES.galaxy;
-    iconSrcs = [BUNDLE_SVG_PATHS.gl_1_out, BUNDLE_SVG_PATHS.gl_2_out, BUNDLE_SVG_PATHS.gl_3_out, BUNDLE_SVG_PATHS.gl_plus_out];
-  } else if (points < 800) {
-    labelText = 'BUY 1ST | SAVE 25%';
-    themeClass = BUNDLE_THEMES.galaxy;
-    iconSrcs = [BUNDLE_SVG_PATHS.gl_1_fill, BUNDLE_SVG_PATHS.gl_2_out, BUNDLE_SVG_PATHS.gl_3_out, BUNDLE_SVG_PATHS.gl_sparkle_out];
-  } else if (points < 850) {
-    labelText = 'BUY 2ND | SAVE 35%';
-    themeClass = BUNDLE_THEMES.galaxy;
-    iconSrcs = [BUNDLE_SVG_PATHS.gl_1_fill, BUNDLE_SVG_PATHS.gl_2_fill, BUNDLE_SVG_PATHS.gl_3_out, BUNDLE_SVG_PATHS.gl_plus_out];
-  } else if (points < 900) {
-    labelText = 'BUY 3RD | SAVE 45%';
-    themeClass = BUNDLE_THEMES.galaxy;
-    iconSrcs = [BUNDLE_SVG_PATHS.gl_1_fill, BUNDLE_SVG_PATHS.gl_2_fill, BUNDLE_SVG_PATHS.gl_3_fill, BUNDLE_SVG_PATHS.gl_sparkle_out];
-  } else if (points < 950) {
-    labelText = 'GET 1 + 1 FREE ON NEXT ORDER';
-    themeClass = BUNDLE_THEMES.galaxy;
-    iconSrcs = [BUNDLE_SVG_PATHS.gl_1_fill, BUNDLE_SVG_PATHS.gl_2_fill, BUNDLE_SVG_PATHS.gl_3_fill, BUNDLE_SVG_PATHS.gl_plus_fill];
+    const dt = elapsed - tGalaxyStart;
+    // Step delay of 800ms
+    if (dt < 800) {
+      labelText = 'UNLOCKED GALAXY TIER LEVEL';
+      iconSrcs = [BUNDLE_SVG_PATHS.gl_1_fill, BUNDLE_SVG_PATHS.st_2_out, BUNDLE_SVG_PATHS.st_3_out, BUNDLE_SVG_PATHS.st_sparkle_out];
+    } else if (dt < 1600) {
+      labelText = 'UNLOCKED GALAXY TIER LEVEL';
+      iconSrcs = [BUNDLE_SVG_PATHS.gl_1_fill, BUNDLE_SVG_PATHS.gl_2_fill, BUNDLE_SVG_PATHS.st_3_out, BUNDLE_SVG_PATHS.st_sparkle_out];
+    } else if (dt < 2400) {
+      labelText = 'UNLOCKED GALAXY TIER LEVEL';
+      iconSrcs = [BUNDLE_SVG_PATHS.gl_1_fill, BUNDLE_SVG_PATHS.gl_2_fill, BUNDLE_SVG_PATHS.gl_3_fill, BUNDLE_SVG_PATHS.st_sparkle_out];
+    } else if (dt < 3200) {
+      labelText = 'UNLOCKED GALAXY TIER LEVEL';
+      iconSrcs = [BUNDLE_SVG_PATHS.gl_1_fill, BUNDLE_SVG_PATHS.gl_2_fill, BUNDLE_SVG_PATHS.gl_3_fill, BUNDLE_SVG_PATHS.gl_sparkle_fill];
+    } else if (dt < 4000) {
+      labelText = 'BUY 1ST | SAVE 25%';
+      iconSrcs = [BUNDLE_SVG_PATHS.gl_1_out, BUNDLE_SVG_PATHS.gl_2_fill, BUNDLE_SVG_PATHS.gl_3_fill, BUNDLE_SVG_PATHS.gl_sparkle_fill];
+    } else if (dt < 4800) {
+      labelText = 'BUY 2ND | SAVE 35%';
+      iconSrcs = [BUNDLE_SVG_PATHS.gl_1_out, BUNDLE_SVG_PATHS.gl_2_out, BUNDLE_SVG_PATHS.gl_3_fill, BUNDLE_SVG_PATHS.gl_sparkle_fill];
+    } else if (dt < 5600) {
+      labelText = 'BUY 3RD | SAVE 45%';
+      iconSrcs = [BUNDLE_SVG_PATHS.gl_1_out, BUNDLE_SVG_PATHS.gl_2_out, BUNDLE_SVG_PATHS.gl_3_out, BUNDLE_SVG_PATHS.gl_sparkle_fill];
+    } else {
+      labelText = 'GET 1 + 1 FREE ON NEXT ORDER';
+      iconSrcs = [BUNDLE_SVG_PATHS.gl_1_out, BUNDLE_SVG_PATHS.gl_2_out, BUNDLE_SVG_PATHS.gl_3_out, BUNDLE_SVG_PATHS.gl_sparkle_out];
+    }
   } else {
-    labelText = 'GET 1 + 1 FREE ON NEXT ORDER';
     themeClass = BUNDLE_THEMES.galaxy;
-    iconSrcs = [BUNDLE_SVG_PATHS.gl_1_fill, BUNDLE_SVG_PATHS.gl_2_fill, BUNDLE_SVG_PATHS.gl_3_fill, BUNDLE_SVG_PATHS.gl_sparkle_fill];
+    labelText = 'GET 1 + 1 FREE ON NEXT ORDER';
+    iconSrcs = [BUNDLE_SVG_PATHS.gl_1_out, BUNDLE_SVG_PATHS.gl_2_out, BUNDLE_SVG_PATHS.gl_3_out, BUNDLE_SVG_PATHS.gl_sparkle_out];
   }
   
   if (bundleLabel.textContent !== labelText) {
@@ -270,6 +298,10 @@ function updateBundleDeals(points) {
       img.src = iconSrcs[i];
     }
   }
+  
+  // Debug log
+  const dtVal = elapsed < tStarlightStart ? 0 : (elapsed < tGalaxyStart ? elapsed - tStarlightStart : elapsed - tGalaxyStart);
+  console.log(`[BundleDeals] elapsed=${elapsed.toFixed(0)} tier=${elapsed < tStarlightStart ? 'LOCKED/SHINY' : (elapsed < tGalaxyStart ? 'STARLIGHT' : 'GALAXY')} dt=${dtVal.toFixed(0)} srcs=${iconSrcs.map(s => s.split('/').pop()).join(',')}`);
 }
 
 // ─── Spend Points Mapping and Logic ─────────────────────────
@@ -525,22 +557,26 @@ function tick() {
   if (!isAnimationActive) return;
   const elapsed = performance.now() - cycleStartTime;
   updateRewardCardsByTime(elapsed);
+  updateBundleDeals(elapsed);
   rafId = requestAnimationFrame(tick);
 }
 
 // Hook up dynamic reward unlocking to the counter (for scrub/debug manual controls)
 counter.onUpdate = (val) => {
-  updateBundleDeals(val);
-  
   const firstFrameIndex = sequence.findIndex(f => f.points >= val);
+  const elapsed = isAnimationActive 
+    ? (performance.now() - cycleStartTime)
+    : (firstFrameIndex !== -1 ? frameTimestamps[firstFrameIndex] : 0);
+
+  updateBundleDeals(elapsed);
+  
   const matchedFrame = firstFrameIndex !== -1 ? sequence[firstFrameIndex] : sequence[sequence.length - 1];
   if (matchedFrame) {
     updateSpendPoints(matchedFrame.tier.id, matchedFrame.circleState, matchedFrame.points);
   }
 
   if (!isAnimationActive) {
-    const mockElapsed = firstFrameIndex !== -1 ? frameTimestamps[firstFrameIndex] : 0;
-    updateRewardCardsByTime(mockElapsed);
+    updateRewardCardsByTime(elapsed);
   }
 };
 
@@ -652,7 +688,7 @@ function playFrame() {
       circle.setFrame(firstFrame.svgPath);
       counter.set(firstFrame.points);
       updateCard(firstFrame.cardState, firstFrame.tier.colors);
-      updateBundleDeals(firstFrame.points);
+      updateBundleDeals(0);
       updateSpendPoints(firstFrame.tier.id, firstFrame.circleState, firstFrame.points);
       DOM.sparkleStarIcon.src = firstFrame.starPath;
       currentStarPath = firstFrame.starPath;
@@ -733,7 +769,7 @@ function startAnimation() {
   circle.setFrame(firstFrame.svgPath);
   counter.set(firstFrame.points);
   updateCard(firstFrame.cardState, firstFrame.tier.colors);
-  updateBundleDeals(firstFrame.points);
+  updateBundleDeals(0);
   updateSpendPoints(firstFrame.tier.id, firstFrame.circleState, firstFrame.points);
   DOM.sparkleStarIcon.src = firstFrame.starPath;
   currentStarPath = firstFrame.starPath;
