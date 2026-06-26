@@ -379,7 +379,8 @@ img {
   height: 1px;
   background: linear-gradient(90deg, #947863 0%, #E9DDD4 50%, #947863 100%);
   transition: background var(--transition-slow);
-  margin-top: 12px; /* Added padding-top space before the line */
+  margin-top: 12px;
+  /* Added padding-top space before the line */
 }
 
 .tier-info__divider.galaxy-divider {
@@ -506,6 +507,7 @@ img {
   gap: 15px;
   height: calc(100% - 28px);
 }
+
 .reward-card {
   position: relative;
   background: #FAFAFA99;
@@ -515,7 +517,8 @@ img {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between; /* Center and space items evenly */
+  justify-content: space-between;
+  /* Center and space items evenly */
   padding: 20px;
   height: 100%;
   transition: all var(--transition-normal);
@@ -527,12 +530,14 @@ img {
 
 .reward-card.unlocked-initial {
   background: var(--bg-white);
-  border: 1px solid #E6D7CB; /* warm border */
+  border: 1px solid #E6D7CB;
+  /* warm border */
 }
 
 .reward-card.unlocked-galaxy {
   background: var(--bg-white);
-  border: 1px solid #2E253A; /* dark purple Galaxy border */
+  border: 1px solid #2E253A;
+  /* dark purple Galaxy border */
 }
 
 .reward-card__icon-wrap {
@@ -677,6 +682,7 @@ img {
 }
 
 .spend-points__bar-container {
+  position: relative;
   width: 100%;
   max-width: 927px;
   height: 62px;
@@ -686,11 +692,31 @@ img {
   transition: all var(--transition-normal);
 }
 
+.spend-points__line-gradient {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  right: 0;
+  margin-left: 42px;
+  margin-right: 90px;
+  height: 6px;
+  background: linear-gradient(90deg, #E9DDD4 0%, #C7AF9F 33%, #B79A89 66%, #2E253A 100%);
+  -webkit-mask: url('/svgs/spend-points/horigontal-Line.svg') no-repeat center;
+  mask: url('/svgs/spend-points/horigontal-Line.svg') no-repeat center;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
 .spend-points__bar-img {
+  position: relative;
   width: 100%;
   height: 100%;
   object-fit: contain;
   display: block;
+  z-index: 1;
   transition: all var(--transition-normal);
 }
 
@@ -702,7 +728,7 @@ img {
   width: 100%;
   height: 100%;
   border-radius: var(--radius-lg);
-  background: #FFFFFFB2;
+  background: #ffffff5e;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   pointer-events: none;

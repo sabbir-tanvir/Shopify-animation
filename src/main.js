@@ -457,6 +457,7 @@ const rewardSvgs = Object.values(REWARD_ICONS).flatMap(icons => [icons.initial, 
 rewardSvgs.push('/svgs/tier-rewards/locked.svg');
 
 const spendPointsSvgs = [
+  '/svgs/spend-points/horigontal-Line.svg',
   '/svgs/spend-points/4 lock .svg',
   '/svgs/spend-points/blackStar.svg',
   '/svgs/spend-points/Frame 428.svg',
