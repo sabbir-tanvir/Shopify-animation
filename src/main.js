@@ -266,7 +266,7 @@ function updateBundleDeals(points) {
   
   for (let i = 0; i < 4; i++) {
     const img = bundleIcons[i];
-    if (img && !img.src.endsWith(iconSrcs[i])) {
+    if (img && !decodeURIComponent(img.src).endsWith(iconSrcs[i])) {
       img.src = iconSrcs[i];
     }
   }
@@ -302,56 +302,56 @@ function getSpendPointsState(tierId, circleState, points) {
     if (circleState < 2) {
       label = 'LEVEL UP TO SHINY TIER';
       barFrameIndex = 2;
-      overlaySrc = '/svgs/spend-points/4 lock .svg';
+      overlaySrc = '/svgs/spend-points/3 lock.svg';
       isLocked = true;
     } else if (circleState < 4) {
       label = 'UNLOCKED SHINY TIER LEVEL';
       barFrameIndex = 3;
-      overlaySrc = '/svgs/spend-points/4 lock .svg';
+      overlaySrc = '/svgs/spend-points/3 lock.svg';
       isLocked = true;
     } else {
       label = 'LEVEL UP TO STARLIGHT TIER';
       barFrameIndex = 4;
-      overlaySrc = '/svgs/spend-points/4 lock .svg';
+      overlaySrc = '/svgs/spend-points/3 lock.svg';
       isLocked = true;
     }
   } else if (tierId === 'STARLIGHT') {
     if (circleState < 2) {
       label = 'LEVEL UP TO STARLIGHT TIER';
       barFrameIndex = 4;
-      overlaySrc = '/svgs/spend-points/4 lock .svg';
+      overlaySrc = '/svgs/spend-points/2 lock.svg';
       isLocked = true;
     } else if (circleState === 2) {
       label = 'UNLOCKED STARLIGHT TIER LEVEL';
       barFrameIndex = 5;
-      overlaySrc = '/svgs/spend-points/4 lock .svg';
+      overlaySrc = '/svgs/spend-points/2 lock.svg';
       isLocked = true;
     } else if (circleState === 3) {
       label = 'UNLOCKED STARLIGHT TIER LEVEL';
       barFrameIndex = 6;
-      overlaySrc = '/svgs/spend-points/4 lock .svg';
+      overlaySrc = '/svgs/spend-points/2 lock.svg';
       isLocked = true;
     } else if (circleState === 4) {
       label = 'LEVEL UP TO GALAXY TIER';
       barFrameIndex = 7;
-      overlaySrc = '/svgs/spend-points/4 lock .svg';
+      overlaySrc = '/svgs/spend-points/2 lock.svg';
       isLocked = true;
     } else {
       label = 'LEVEL UP TO GALAXY TIER';
       barFrameIndex = 8;
-      overlaySrc = '/svgs/spend-points/4 lock .svg';
+      overlaySrc = '/svgs/spend-points/2 lock.svg';
       isLocked = true;
     }
   } else if (tierId === 'GALAXY') {
     if (circleState === 0) {
       label = 'LEVEL UP TO GALAXY TIER';
       barFrameIndex = 8;
-      overlaySrc = '/svgs/spend-points/4 lock .svg';
+      overlaySrc = '/svgs/spend-points/1 lock.svg';
       isLocked = true;
     } else if (circleState === 1) {
       label = 'UNLOCKED GALAXY TIER LEVEL';
       barFrameIndex = 9;
-      overlaySrc = '/svgs/spend-points/4 lock .svg';
+      overlaySrc = '/svgs/spend-points/0 lock.svg';
       isLocked = true;
     } else if (circleState === 2 || circleState === 3) {
       label = 'COMPLETE GALAXY TIER TO UNLOCK REWARDS';
@@ -405,14 +405,14 @@ function updateSpendPoints(tierId, circleState, points) {
     ? '/svgs/spend-points/Frame 428.svg'
     : `/svgs/spend-points/Frame 428 (${state.barFrameIndex}).svg`;
 
-  if (!spendBarImg.src.endsWith(barSvgPath)) {
+  if (!decodeURIComponent(spendBarImg.src).endsWith(barSvgPath)) {
     spendBarImg.src = barSvgPath;
   }
 
   // 3. Update overlay image
   if (state.overlaySrc) {
     spendOverlayImg.style.display = 'block';
-    if (!spendOverlayImg.src.endsWith(state.overlaySrc)) {
+    if (!decodeURIComponent(spendOverlayImg.src).endsWith(state.overlaySrc)) {
       spendOverlayImg.src = state.overlaySrc;
     }
   } else {
@@ -459,6 +459,10 @@ rewardSvgs.push('/svgs/tier-rewards/locked.svg');
 const spendPointsSvgs = [
   '/svgs/spend-points/horigontal-Line.svg',
   '/svgs/spend-points/4 lock .svg',
+  '/svgs/spend-points/3 lock.svg',
+  '/svgs/spend-points/2 lock.svg',
+  '/svgs/spend-points/1 lock.svg',
+  '/svgs/spend-points/0 lock.svg',
   '/svgs/spend-points/blackStar.svg',
   '/svgs/spend-points/Frame 428.svg',
   '/svgs/spend-points/Frame 428 (1).svg',
@@ -497,20 +501,20 @@ function updateRewardCardsByTime(elapsed) {
       if (currentPoints < 700) {
         cardEl.classList.add('unlocked-initial');
         cardEl.classList.remove('unlocked-galaxy');
-        if (imgEl && !imgEl.src.endsWith(REWARD_ICONS[cardId].initial)) {
+        if (imgEl && !decodeURIComponent(imgEl.src).endsWith(REWARD_ICONS[cardId].initial)) {
           imgEl.src = REWARD_ICONS[cardId].initial;
         }
       } else {
         cardEl.classList.add('unlocked-galaxy');
         cardEl.classList.remove('unlocked-initial');
-        if (imgEl && !imgEl.src.endsWith(REWARD_ICONS[cardId].galaxy)) {
+        if (imgEl && !decodeURIComponent(imgEl.src).endsWith(REWARD_ICONS[cardId].galaxy)) {
           imgEl.src = REWARD_ICONS[cardId].galaxy;
         }
       }
     } else {
       cardEl.classList.add('locked');
       cardEl.classList.remove('unlocked-initial', 'unlocked-galaxy');
-      if (imgEl && !imgEl.src.endsWith('/svgs/tier-rewards/locked.svg')) {
+      if (imgEl && !decodeURIComponent(imgEl.src).endsWith('/svgs/tier-rewards/locked.svg')) {
         imgEl.src = '/svgs/tier-rewards/locked.svg';
       }
     }
