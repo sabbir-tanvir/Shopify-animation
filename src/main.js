@@ -147,6 +147,293 @@ const REWARD_ICONS = {
   }
 };
 
+// ─── Bundle Deals Mapping and Logic ─────────────────────────
+const BUNDLE_THEMES = {
+  locked: 'locked-theme',
+  starlight: 'starlight-theme',
+  galaxy: 'galaxy-theme'
+};
+
+const BUNDLE_SVG_PATHS = {
+  lock: '/svgs/bundle-deals/Property 1=Lock.svg',
+  
+  // Starlight outline
+  st_1_out: '/svgs/bundle-deals/Property 1=- Starlight 1.png',
+  st_2_out: '/svgs/bundle-deals/Property 1=- Starlight 2.png',
+  st_3_out: '/svgs/bundle-deals/Property 1=- Starlight 3.png',
+  st_sparkle_out: '/svgs/bundle-deals/Property 1=- Starlight 4.png',
+  st_plus_out: '/svgs/bundle-deals/Property 1=- Starlight Plus.svg',
+  
+  // Starlight filled
+  st_1_fill: '/svgs/bundle-deals/Property 1=ST 1 (1).png',
+  st_2_fill: '/svgs/bundle-deals/Property 1=ST 2.png',
+  st_3_fill: '/svgs/bundle-deals/Property 1=ST 3.png',
+  st_sparkle_fill: '/svgs/bundle-deals/Property 1=ST 4.png',
+  st_plus_fill: '/svgs/bundle-deals/Property 1=ST Plus.svg',
+  
+  // Galaxy outline
+  gl_1_out: '/svgs/bundle-deals/Property 1=- Galaxy 1.png',
+  gl_2_out: '/svgs/bundle-deals/Property 1=- Galaxy 2.png',
+  gl_3_out: '/svgs/bundle-deals/Property 1=- Galaxy 3 (1).png',
+  gl_sparkle_out: '/svgs/bundle-deals/Property 1=- Galaxy 4.png',
+  gl_plus_out: '/svgs/bundle-deals/Property 1=- Galaxy Plus.svg',
+  
+  // Galaxy filled
+  gl_1_fill: '/svgs/bundle-deals/Property 1=Gl 1.png',
+  gl_2_fill: '/svgs/bundle-deals/Property 1=GL 2.png',
+  gl_3_fill: '/svgs/bundle-deals/Property 1=GL 3.png',
+  gl_sparkle_fill: '/svgs/bundle-deals/Property 1=GL 4.png',
+  gl_plus_fill: '/svgs/bundle-deals/Property 1=GL Plus.svg'
+};
+
+function updateBundleDeals(points) {
+  const bundleCard = document.querySelector('.bundle-deals__content');
+  const bundleLabel = document.getElementById('bundle-label');
+  const bundleIcons = document.querySelectorAll('#bundle-icons .bundle-icon__img');
+  
+  if (!bundleCard || !bundleLabel || bundleIcons.length !== 4) return;
+  
+  let labelText = '';
+  let themeClass = BUNDLE_THEMES.locked;
+  let iconSrcs = [];
+  
+  if (points < 40) {
+    labelText = 'LEVEL UP TO SHINY TIER';
+    themeClass = BUNDLE_THEMES.locked;
+    iconSrcs = [BUNDLE_SVG_PATHS.lock, BUNDLE_SVG_PATHS.lock, BUNDLE_SVG_PATHS.lock, BUNDLE_SVG_PATHS.lock];
+  } else if (points < 100) {
+    labelText = 'LEVEL UP TO STARLIGHT TIER';
+    themeClass = BUNDLE_THEMES.locked;
+    iconSrcs = [BUNDLE_SVG_PATHS.lock, BUNDLE_SVG_PATHS.lock, BUNDLE_SVG_PATHS.lock, BUNDLE_SVG_PATHS.lock];
+  } else if (points < 200) {
+    labelText = 'UNLOCKED STARLIGHT TIER LEVEL';
+    themeClass = BUNDLE_THEMES.starlight;
+    iconSrcs = [BUNDLE_SVG_PATHS.st_1_out, BUNDLE_SVG_PATHS.st_2_out, BUNDLE_SVG_PATHS.st_3_out, BUNDLE_SVG_PATHS.st_plus_out];
+  } else if (points < 300) {
+    labelText = 'BUY 1ST | SAVE 20%';
+    themeClass = BUNDLE_THEMES.starlight;
+    iconSrcs = [BUNDLE_SVG_PATHS.st_1_fill, BUNDLE_SVG_PATHS.st_2_out, BUNDLE_SVG_PATHS.st_3_out, BUNDLE_SVG_PATHS.st_sparkle_out];
+  } else if (points < 400) {
+    labelText = 'BUY 2ND | SAVE 25%';
+    themeClass = BUNDLE_THEMES.starlight;
+    iconSrcs = [BUNDLE_SVG_PATHS.st_1_fill, BUNDLE_SVG_PATHS.st_2_fill, BUNDLE_SVG_PATHS.st_3_out, BUNDLE_SVG_PATHS.st_plus_out];
+  } else if (points < 500) {
+    labelText = 'BUY 3RD | SAVE 35%';
+    themeClass = BUNDLE_THEMES.starlight;
+    iconSrcs = [BUNDLE_SVG_PATHS.st_1_fill, BUNDLE_SVG_PATHS.st_2_fill, BUNDLE_SVG_PATHS.st_3_fill, BUNDLE_SVG_PATHS.st_sparkle_out];
+  } else if (points < 600) {
+    labelText = 'GET 1 + 1 FREE ON NEXT ORDER';
+    themeClass = BUNDLE_THEMES.starlight;
+    iconSrcs = [BUNDLE_SVG_PATHS.st_1_fill, BUNDLE_SVG_PATHS.st_2_fill, BUNDLE_SVG_PATHS.st_3_fill, BUNDLE_SVG_PATHS.st_plus_fill];
+  } else if (points < 700) {
+    labelText = 'GET 1 + 1 FREE ON NEXT ORDER';
+    themeClass = BUNDLE_THEMES.starlight;
+    iconSrcs = [BUNDLE_SVG_PATHS.st_1_fill, BUNDLE_SVG_PATHS.st_2_fill, BUNDLE_SVG_PATHS.st_3_fill, BUNDLE_SVG_PATHS.st_sparkle_fill];
+  } else if (points < 750) {
+    labelText = 'UNLOCKED GALAXY TIER LEVEL';
+    themeClass = BUNDLE_THEMES.galaxy;
+    iconSrcs = [BUNDLE_SVG_PATHS.gl_1_out, BUNDLE_SVG_PATHS.gl_2_out, BUNDLE_SVG_PATHS.gl_3_out, BUNDLE_SVG_PATHS.gl_plus_out];
+  } else if (points < 800) {
+    labelText = 'BUY 1ST | SAVE 25%';
+    themeClass = BUNDLE_THEMES.galaxy;
+    iconSrcs = [BUNDLE_SVG_PATHS.gl_1_fill, BUNDLE_SVG_PATHS.gl_2_out, BUNDLE_SVG_PATHS.gl_3_out, BUNDLE_SVG_PATHS.gl_sparkle_out];
+  } else if (points < 850) {
+    labelText = 'BUY 2ND | SAVE 35%';
+    themeClass = BUNDLE_THEMES.galaxy;
+    iconSrcs = [BUNDLE_SVG_PATHS.gl_1_fill, BUNDLE_SVG_PATHS.gl_2_fill, BUNDLE_SVG_PATHS.gl_3_out, BUNDLE_SVG_PATHS.gl_plus_out];
+  } else if (points < 900) {
+    labelText = 'BUY 3RD | SAVE 45%';
+    themeClass = BUNDLE_THEMES.galaxy;
+    iconSrcs = [BUNDLE_SVG_PATHS.gl_1_fill, BUNDLE_SVG_PATHS.gl_2_fill, BUNDLE_SVG_PATHS.gl_3_fill, BUNDLE_SVG_PATHS.gl_sparkle_out];
+  } else if (points < 950) {
+    labelText = 'GET 1 + 1 FREE ON NEXT ORDER';
+    themeClass = BUNDLE_THEMES.galaxy;
+    iconSrcs = [BUNDLE_SVG_PATHS.gl_1_fill, BUNDLE_SVG_PATHS.gl_2_fill, BUNDLE_SVG_PATHS.gl_3_fill, BUNDLE_SVG_PATHS.gl_plus_fill];
+  } else {
+    labelText = 'GET 1 + 1 FREE ON NEXT ORDER';
+    themeClass = BUNDLE_THEMES.galaxy;
+    iconSrcs = [BUNDLE_SVG_PATHS.gl_1_fill, BUNDLE_SVG_PATHS.gl_2_fill, BUNDLE_SVG_PATHS.gl_3_fill, BUNDLE_SVG_PATHS.gl_sparkle_fill];
+  }
+  
+  if (bundleLabel.textContent !== labelText) {
+    bundleLabel.textContent = labelText;
+  }
+  
+  if (!bundleCard.classList.contains(themeClass)) {
+    bundleCard.classList.remove(BUNDLE_THEMES.locked, BUNDLE_THEMES.starlight, BUNDLE_THEMES.galaxy);
+    bundleCard.classList.add(themeClass);
+  }
+  
+  for (let i = 0; i < 4; i++) {
+    const img = bundleIcons[i];
+    if (img && !img.src.endsWith(iconSrcs[i])) {
+      img.src = iconSrcs[i];
+    }
+  }
+}
+
+// ─── Spend Points Mapping and Logic ─────────────────────────
+
+function getSpendPointsState(tierId, circleState, points) {
+  let label = 'SIGN UP TO JOIN VIP LOYALTY UNIVERSE CLUB';
+  let barFrameIndex = 0; // 0 to 12
+  let overlaySrc = '/svgs/spend-points/4 lock .svg';
+  let isLocked = true;
+  let isGalaxyTheme = false;
+
+  if (tierId === 'S_BRILLET') {
+    if (circleState === 0) {
+      label = 'SIGN UP TO JOIN VIP LOYALTY UNIVERSE CLUB';
+      barFrameIndex = 0;
+      overlaySrc = '/svgs/spend-points/4 lock .svg';
+      isLocked = true;
+    } else if (circleState < 6) {
+      label = 'JOINED VIP LOYALTY UNIVERSE CLUB';
+      barFrameIndex = 1;
+      overlaySrc = '/svgs/spend-points/4 lock .svg';
+      isLocked = true;
+    } else {
+      label = 'LEVEL UP TO SHINY TIER';
+      barFrameIndex = 2;
+      overlaySrc = '/svgs/spend-points/4 lock .svg';
+      isLocked = true;
+    }
+  } else if (tierId === 'SHINY') {
+    if (circleState < 2) {
+      label = 'LEVEL UP TO SHINY TIER';
+      barFrameIndex = 2;
+      overlaySrc = '/svgs/spend-points/4 lock .svg';
+      isLocked = true;
+    } else if (circleState < 4) {
+      label = 'UNLOCKED SHINY TIER LEVEL';
+      barFrameIndex = 3;
+      overlaySrc = '/svgs/spend-points/4 lock .svg';
+      isLocked = true;
+    } else {
+      label = 'LEVEL UP TO STARLIGHT TIER';
+      barFrameIndex = 4;
+      overlaySrc = '/svgs/spend-points/4 lock .svg';
+      isLocked = true;
+    }
+  } else if (tierId === 'STARLIGHT') {
+    if (circleState < 2) {
+      label = 'LEVEL UP TO STARLIGHT TIER';
+      barFrameIndex = 4;
+      overlaySrc = '/svgs/spend-points/4 lock .svg';
+      isLocked = true;
+    } else if (circleState === 2) {
+      label = 'UNLOCKED STARLIGHT TIER LEVEL';
+      barFrameIndex = 5;
+      overlaySrc = '/svgs/spend-points/4 lock .svg';
+      isLocked = true;
+    } else if (circleState === 3) {
+      label = 'UNLOCKED STARLIGHT TIER LEVEL';
+      barFrameIndex = 6;
+      overlaySrc = '/svgs/spend-points/4 lock .svg';
+      isLocked = true;
+    } else if (circleState === 4) {
+      label = 'LEVEL UP TO GALAXY TIER';
+      barFrameIndex = 7;
+      overlaySrc = '/svgs/spend-points/4 lock .svg';
+      isLocked = true;
+    } else {
+      label = 'LEVEL UP TO GALAXY TIER';
+      barFrameIndex = 8;
+      overlaySrc = '/svgs/spend-points/4 lock .svg';
+      isLocked = true;
+    }
+  } else if (tierId === 'GALAXY') {
+    if (circleState === 0) {
+      label = 'LEVEL UP TO GALAXY TIER';
+      barFrameIndex = 8;
+      overlaySrc = '/svgs/spend-points/4 lock .svg';
+      isLocked = true;
+    } else if (circleState === 1) {
+      label = 'UNLOCKED GALAXY TIER LEVEL';
+      barFrameIndex = 9;
+      overlaySrc = '/svgs/spend-points/4 lock .svg';
+      isLocked = true;
+    } else if (circleState === 2 || circleState === 3) {
+      label = 'COMPLETE GALAXY TIER TO UNLOCK REWARDS';
+      barFrameIndex = 10;
+      overlaySrc = '/svgs/spend-points/blackStar.svg';
+      isLocked = true;
+    } else if (circleState === 4 || circleState === 5) {
+      label = 'UNLOCKED GALAXY TIER REWARDS';
+      barFrameIndex = 11;
+      overlaySrc = ''; // No overlay
+      isLocked = false;
+    } else {
+      label = 'UNLOCKED GALAXY TIER REWARDS';
+      barFrameIndex = 12;
+      overlaySrc = ''; // No overlay
+      isLocked = false;
+      isGalaxyTheme = true;
+    }
+  } else if (tierId === 'ULTRA_GALAXY') {
+    label = 'UNLOCKED GALAXY TIER REWARDS';
+    barFrameIndex = 12;
+    overlaySrc = ''; // No overlay
+    isLocked = false;
+    isGalaxyTheme = true;
+  }
+
+  return { label, barFrameIndex, overlaySrc, isLocked, isGalaxyTheme };
+}
+
+function updateSpendPoints(tierId, circleState, points) {
+  const spendLabel = document.getElementById('spend-label');
+  const spendOverlayLabel = document.getElementById('spend-overlay-label');
+  const spendBarImg = document.getElementById('spend-bar-img');
+  const spendOverlayImg = document.getElementById('spend-overlay-img');
+  const spendBar = document.getElementById('spend-bar');
+
+  if (!spendLabel || !spendOverlayLabel || !spendBarImg || !spendOverlayImg || !spendBar) return;
+
+  const state = getSpendPointsState(tierId, circleState, points);
+
+  // 1. Update text labels
+  if (spendLabel.textContent !== state.label) {
+    spendLabel.textContent = state.label;
+  }
+  if (spendOverlayLabel.textContent !== state.label) {
+    spendOverlayLabel.textContent = state.label;
+  }
+
+  // 2. Update progress bar SVG
+  const barSvgPath = state.barFrameIndex === 0
+    ? '/svgs/spend-points/Frame 428.svg'
+    : `/svgs/spend-points/Frame 428 (${state.barFrameIndex}).svg`;
+
+  if (!spendBarImg.src.endsWith(barSvgPath)) {
+    spendBarImg.src = barSvgPath;
+  }
+
+  // 3. Update overlay image
+  if (state.overlaySrc) {
+    spendOverlayImg.style.display = 'block';
+    if (!spendOverlayImg.src.endsWith(state.overlaySrc)) {
+      spendOverlayImg.src = state.overlaySrc;
+    }
+  } else {
+    spendOverlayImg.style.display = 'none';
+  }
+
+  // 4. Update locked class on the full card (controls glass overlay & centered lock text visibility)
+  if (state.isLocked) {
+    spendBar.classList.add('is-locked');
+  } else {
+    spendBar.classList.remove('is-locked');
+  }
+
+  // 5. Update galaxy theme background class
+  if (state.isGalaxyTheme) {
+    spendBar.classList.add('galaxy-theme');
+  } else {
+    spendBar.classList.remove('galaxy-theme');
+  }
+}
+
 // ─── Preload All SVGs ───────────────────────────────────────
 
 const allCircleSvgs = sequence.map((frame) => frame.svgPath);
@@ -169,7 +456,25 @@ const extraSvgs = [
 const rewardSvgs = Object.values(REWARD_ICONS).flatMap(icons => [icons.initial, icons.galaxy]);
 rewardSvgs.push('/svgs/tier-rewards/locked.svg');
 
-circle.preload([...allCircleSvgs, ...allStarSvgs, ...extraSvgs, ...rewardSvgs]);
+const spendPointsSvgs = [
+  '/svgs/spend-points/4 lock .svg',
+  '/svgs/spend-points/blackStar.svg',
+  '/svgs/spend-points/Frame 428.svg',
+  '/svgs/spend-points/Frame 428 (1).svg',
+  '/svgs/spend-points/Frame 428 (2).svg',
+  '/svgs/spend-points/Frame 428 (3).svg',
+  '/svgs/spend-points/Frame 428 (4).svg',
+  '/svgs/spend-points/Frame 428 (5).svg',
+  '/svgs/spend-points/Frame 428 (6).svg',
+  '/svgs/spend-points/Frame 428 (7).svg',
+  '/svgs/spend-points/Frame 428 (8).svg',
+  '/svgs/spend-points/Frame 428 (9).svg',
+  '/svgs/spend-points/Frame 428 (10).svg',
+  '/svgs/spend-points/Frame 428 (11).svg',
+  '/svgs/spend-points/Frame 428 (12).svg'
+];
+
+circle.preload([...allCircleSvgs, ...allStarSvgs, ...extraSvgs, ...rewardSvgs, ...Object.values(BUNDLE_SVG_PATHS), ...spendPointsSvgs]);
 
 // ─── Update Reward Cards By Time ─────────────────────────────
 let cycleStartTime = 0;
@@ -220,8 +525,15 @@ function tick() {
 
 // Hook up dynamic reward unlocking to the counter (for scrub/debug manual controls)
 counter.onUpdate = (val) => {
+  updateBundleDeals(val);
+  
+  const firstFrameIndex = sequence.findIndex(f => f.points >= val);
+  const matchedFrame = firstFrameIndex !== -1 ? sequence[firstFrameIndex] : sequence[sequence.length - 1];
+  if (matchedFrame) {
+    updateSpendPoints(matchedFrame.tier.id, matchedFrame.circleState, matchedFrame.points);
+  }
+
   if (!isAnimationActive) {
-    const firstFrameIndex = sequence.findIndex(f => f.points >= val);
     const mockElapsed = firstFrameIndex !== -1 ? frameTimestamps[firstFrameIndex] : 0;
     updateRewardCardsByTime(mockElapsed);
   }
@@ -335,6 +647,8 @@ function playFrame() {
       circle.setFrame(firstFrame.svgPath);
       counter.set(firstFrame.points);
       updateCard(firstFrame.cardState, firstFrame.tier.colors);
+      updateBundleDeals(firstFrame.points);
+      updateSpendPoints(firstFrame.tier.id, firstFrame.circleState, firstFrame.points);
       DOM.sparkleStarIcon.src = firstFrame.starPath;
       currentStarPath = firstFrame.starPath;
       triggerFadeUp(DOM.counterNumberContainer);
@@ -369,7 +683,10 @@ function playFrame() {
   // 2. Update card content and layout
   updateCard(frame.cardState, frame.tier.colors);
 
-  // 3. Update star SVG next to point counter
+  // 3. Update spend points progress bar and overlays
+  updateSpendPoints(frame.tier.id, frame.circleState, frame.points);
+
+  // 4. Update star SVG next to point counter
   if (frame.starPath !== currentStarPath) {
     currentStarPath = frame.starPath;
     DOM.sparkleStarIcon.src = frame.starPath;
@@ -411,6 +728,8 @@ function startAnimation() {
   circle.setFrame(firstFrame.svgPath);
   counter.set(firstFrame.points);
   updateCard(firstFrame.cardState, firstFrame.tier.colors);
+  updateBundleDeals(firstFrame.points);
+  updateSpendPoints(firstFrame.tier.id, firstFrame.circleState, firstFrame.points);
   DOM.sparkleStarIcon.src = firstFrame.starPath;
   currentStarPath = firstFrame.starPath;
   triggerFadeUp(DOM.counterNumberContainer);

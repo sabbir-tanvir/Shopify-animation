@@ -158,20 +158,17 @@
         <h2 class="section-label">UNLOCK BUNDLE DEALS</h2>
         <div class="bundle-deals__content">
           <div class="bundle-deals__icons" id="bundle-icons">
-            <div class="bundle-icon locked" data-index="0">
-              <svg class="bundle-icon__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
+            <div class="bundle-icon" data-index="0">
+              <img class="bundle-icon__img" src="/svgs/bundle-deals/Property 1=Lock.svg" alt="Lock" />
             </div>
-            <div class="bundle-icon locked" data-index="1">
-              <svg class="bundle-icon__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
+            <div class="bundle-icon" data-index="1">
+              <img class="bundle-icon__img" src="/svgs/bundle-deals/Property 1=Lock.svg" alt="Lock" />
             </div>
-            <div class="bundle-icon locked" data-index="2">
-              <svg class="bundle-icon__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
+            <div class="bundle-icon" data-index="2">
+              <img class="bundle-icon__img" src="/svgs/bundle-deals/Property 1=Lock.svg" alt="Lock" />
             </div>
-            <div class="bundle-icon locked" data-index="3">
-              <svg class="bundle-icon__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
-            </div>
-            <div class="bundle-icon locked" data-index="4">
-              <svg class="bundle-icon__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
+            <div class="bundle-icon" data-index="3">
+              <img class="bundle-icon__img" src="/svgs/bundle-deals/Property 1=Lock.svg" alt="Lock" />
             </div>
           </div>
           <p class="bundle-deals__label" id="bundle-label">LEVEL UP TO SHINY TIER</p>
@@ -185,23 +182,25 @@
         <h2 class="section-label">SPEND SPARKLE POINTS</h2>
         <div class="spend-points__content">
           <div class="spend-points__bar" id="spend-bar">
-            <div class="spend-points__icons" id="spend-icons">
-              <div class="spend-icon locked" data-index="0">
-                <svg class="spend-icon__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
-              </div>
-              <div class="spend-icon locked" data-index="1">
-                <svg class="spend-icon__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
-              </div>
-              <div class="spend-icon locked" data-index="2">
-                <svg class="spend-icon__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
-              </div>
-              <div class="spend-icon locked" data-index="3">
-                <svg class="spend-icon__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
-              </div>
-              <div class="spend-icon locked" data-index="4">
-                <svg class="spend-icon__lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>
+            <!-- Progress Bar SVG -->
+            <div class="spend-points__bar-container">
+              <img class="spend-points__bar-img" id="spend-bar-img" src="/svgs/spend-points/Frame 428.svg" alt="Spend Sparkle Points Progress" />
+            </div>
+
+            <!-- Glass Overlay for the full div -->
+            <div class="spend-points__glass-overlay" id="spend-glass"></div>
+
+            <!-- Centered locks + text on top of glass overlay (Locked State) -->
+            <div class="spend-points__overlay" id="spend-overlay">
+              <div class="spend-points__overlay-content">
+                <div class="spend-points__overlay-icon-wrap">
+                  <img class="spend-points__overlay-img" id="spend-overlay-img" src="/svgs/spend-points/4 lock .svg" alt="Lock Overlay" />
+                </div>
+                <p class="spend-points__overlay-label" id="spend-overlay-label">SIGN UP TO JOIN VIP LOYALTY UNIVERSE CLUB</p>
               </div>
             </div>
+
+            <!-- Natural Label at the bottom (Unlocked State) -->
             <p class="spend-points__label" id="spend-label">SIGN UP TO JOIN VIP LOYALTY UNIVERSE CLUB</p>
           </div>
         </div>
