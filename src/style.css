@@ -111,11 +111,10 @@ img {
 
 .loyalty-grid {
   display: grid;
-  grid-template-columns: 580px 1021px;
+  grid-template-columns: minmax(320px, 580px) 1fr;
   grid-template-rows: auto auto;
   align-items: start;
   gap: 24px;
-  /* Increased spacing between all 4 panels (up, down, left, right) */
 }
 
 
@@ -149,9 +148,8 @@ img {
 .earn-sparkle {
   grid-column: 1;
   grid-row: 1;
-  width: 580px;
+  width: 100%;
   height: 401px;
-  /* Align with Unlock Tier Rewards height */
   display: flex;
   flex-direction: column;
 }
@@ -497,7 +495,7 @@ img {
 .tier-rewards {
   grid-column: 2;
   grid-row: 1;
-  width: 1021px;
+  width: 100%;
   height: 401px;
 }
 
@@ -577,7 +575,7 @@ img {
 .bundle-deals {
   grid-column: 1;
   grid-row: 2;
-  width: 580px;
+  width: 100%;
   height: 179px;
 }
 
@@ -657,7 +655,7 @@ img {
 .spend-points {
   grid-column: 2;
   grid-row: 2;
-  width: 1021px;
+  width: 100%;
   height: 179px;
 }
 
@@ -884,31 +882,186 @@ img {
 
 
 /* ═══════════════════════════════════════════════════════════
-   RESPONSIVE
+   RESPONSIVE LAYOUT BREAKPOINTS
    ═══════════════════════════════════════════════════════════ */
 
-@media (max-width: 900px) {
+/* 1. Stack columns below 1200px (Desktop-first approach) */
+@media (max-width: 1200px) {
   .loyalty-grid {
     grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    justify-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
   }
 
   .earn-sparkle,
   .tier-rewards,
   .bundle-deals,
   .spend-points {
-    grid-column: 1;
+    grid-column: 1 !important;
+    width: 100%;
+  }
+
+  .earn-sparkle {
+    grid-row: 1 !important;
+    max-width: 580px;
   }
 
   .tier-rewards {
-    grid-row: 2;
+    grid-row: 2 !important;
+    max-width: 1000px;
+    height: auto !important;
   }
 
   .bundle-deals {
-    grid-row: 3;
+    grid-row: 3 !important;
+    max-width: 580px;
   }
 
   .spend-points {
-    grid-row: 4;
+    grid-row: 4 !important;
+    max-width: 1000px;
+    height: auto !important;
+  }
+
+  .spend-points__content {
+    height: auto !important;
+  }
+
+  .spend-points__bar {
+    height: auto !important;
+    padding: 24px 20px !important;
+  }
+}
+
+/* 2. Tablet view: Wrap reward cards into 3 columns */
+@media (max-width: 900px) {
+  .tier-rewards__grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    height: auto !important;
+  }
+
+  .tier-rewards {
+    height: auto !important;
+  }
+  
+  .reward-card {
+    height: 160px !important;
+  }
+}
+
+/* 3. Small Tablet / Large Mobile: Wrap reward cards to 2 columns */
+@media (max-width: 768px) {
+  body {
+    padding: 16px;
+  }
+
+  .tier-rewards__grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* 4. Mobile: Stack circle and points counter vertically, adjust heights and margins */
+@media (max-width: 480px) {
+  body {
+    padding: 12px;
+  }
+
+  .earn-sparkle {
+    height: auto !important;
+  }
+
+  .earn-sparkle__content {
+    height: auto !important;
+    padding: 20px 16px !important;
+  }
+
+  .earn-sparkle__top {
+    flex-direction: column !important;
+    height: auto !important;
+    gap: 15px !important;
+  }
+
+  .circle-container {
+    width: 140px !important;
+    height: 140px !important;
+  }
+
+  .sparkle-counter {
+    width: 100% !important;
+    height: 120px !important;
+  }
+
+  .sparkle-counter__value {
+    font-size: 44px !important;
+  }
+
+  .earn-sparkle__info {
+    height: auto !important;
+    padding: 16px !important;
+  }
+
+  .tier-info__actions-container {
+    margin-top: 8px !important;
+  }
+
+  .tier-badge__name {
+    font-size: 20px !important;
+  }
+
+  .tier-points-label {
+    font-size: 13px !important;
+    line-height: 24px !important;
+  }
+
+  .bundle-deals {
+    height: auto !important;
+  }
+
+  .bundle-deals__content {
+    height: auto !important;
+    padding: 20px 15px !important;
+  }
+
+  .bundle-deals__icons {
+    gap: 8px !important;
+  }
+
+  .bundle-icon {
+    width: 55px !important;
+    height: 42px !important;
+  }
+
+  .bundle-icon__img {
+    width: 55px !important;
+    height: 42px !important;
+  }
+
+  .spend-points {
+    height: auto !important;
+  }
+
+  .spend-points__content {
+    height: auto !important;
+  }
+
+  .spend-points__bar {
+    height: auto !important;
+    padding: 20px 15px !important;
+  }
+
+  .spend-points__bar-container {
+    height: 50px !important;
+  }
+
+  .spend-points__overlay-label,
+  .spend-points__label {
+    font-size: 11px !important;
+  }
+
+  .tier-rewards__grid {
+    grid-template-columns: 1fr !important;
   }
 }
 
