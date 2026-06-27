@@ -490,8 +490,8 @@ function updateSpendPointsSmooth(elapsed) {
     // Smoothly slide the star dynamically based on --pill-padding along the progress line
     DOM.spendGalaxyStar.style.left = `calc(var(--pill-padding) + ${progress} * (100% - var(--pill-padding) * 2))`;
 
-    // Update label text
-    DOM.spendLabel.textContent = 'SPEND SPARCKLE POINTS: ' + pointsVal + ' PTS';
+    // Update label text to reflect the unlocked galaxy rewards state
+    DOM.spendLabel.textContent = '';
   } else {
     // Phase 1: Standard progression (S-Brillet to Ultra Galaxy)
     DOM.spendBar.classList.remove('unlocked-galaxy-phase');
