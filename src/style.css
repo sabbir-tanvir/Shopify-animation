@@ -897,8 +897,8 @@ img {
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 24px;
-  height: 20px;
+  width: 32px;
+  height: 27px;
   z-index: 3;
   left: var(--pill-padding);
   /* Dynamic left */
@@ -925,7 +925,7 @@ img {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 30px;
+  gap: 26px;
   /* spacing between top label and bottom label, line runs right in the middle! */
 }
 
@@ -1182,12 +1182,12 @@ img {
   }
 
   .spend-points__galaxy-star {
-    width: 20px !important;
-    height: 17px !important;
+    width: 26px !important;
+    height: 22px !important;
   }
 
   .spend-points__milestone {
-    gap: 14px !important;
+    gap: 12px !important;
   }
 
   .milestone-top {

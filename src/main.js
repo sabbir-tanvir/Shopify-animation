@@ -578,7 +578,7 @@ function updateRewardCardsByTime(elapsed) {
 
     if (elapsed >= unlockTime) {
       cardEl.classList.remove('locked');
-      if (currentPoints < 700) {
+      if (currentPoints < 700 && elapsed < tBonusStart) {
         cardEl.classList.add('unlocked-initial');
         cardEl.classList.remove('unlocked-galaxy');
         if (imgEl && !decodeURIComponent(imgEl.src).endsWith(REWARD_ICONS[cardId].initial)) {
@@ -740,6 +740,8 @@ function playFrame() {
       updateCard(firstFrame.cardState, firstFrame.tier.colors);
       updateBundleDeals(0);
       updateSpendPoints(firstFrame.tier.id, firstFrame.circleState, firstFrame.points);
+      DOM.spendBar.classList.remove('unlocked-galaxy-phase');
+      DOM.spendGalaxyProgress.style.display = 'none';
       DOM.sparkleStarIcon.src = firstFrame.starPath;
       currentStarPath = firstFrame.starPath;
       triggerFadeUp(DOM.counterNumberContainer);
@@ -826,6 +828,8 @@ function startAnimation() {
   updateCard(firstFrame.cardState, firstFrame.tier.colors);
   updateBundleDeals(0);
   updateSpendPoints(firstFrame.tier.id, firstFrame.circleState, firstFrame.points);
+  DOM.spendBar.classList.remove('unlocked-galaxy-phase');
+  DOM.spendGalaxyProgress.style.display = 'none';
   DOM.sparkleStarIcon.src = firstFrame.starPath;
   currentStarPath = firstFrame.starPath;
   triggerFadeUp(DOM.counterNumberContainer);
