@@ -399,19 +399,19 @@ function getSpendPointsState(tierId, circleState, points) {
       overlaySrc = '/svgs/spend-points/blackStar.svg';
       isLocked = true;
     } else if (circleState === 4 || circleState === 5) {
-      label = 'UNLOCKED GALAXY TIER REWARDS';
+      label = '';
       barFrameIndex = 11;
       overlaySrc = ''; // No overlay
       isLocked = false;
     } else {
-      label = 'UNLOCKED GALAXY TIER REWARDS';
+      label = '';
       barFrameIndex = 12;
       overlaySrc = ''; // No overlay
       isLocked = false;
       isGalaxyTheme = true;
     }
   } else if (tierId === 'ULTRA_GALAXY') {
-    label = 'UNLOCKED GALAXY TIER REWARDS';
+    label = '';
     barFrameIndex = 12;
     overlaySrc = ''; // No overlay
     isLocked = false;
@@ -483,9 +483,24 @@ function updateSpendPointsSmooth(elapsed) {
     DOM.spendGalaxyProgress.style.display = 'flex';
 
     // Calculate progress directly from the counter animation value (0 to 1000)
-    // to keep it perfectly synchronized with the displayed points count
+    // using piecewise linear interpolation to match the equally spaced milestones
     const pointsVal = counter.currentValue;
-    const progress = Math.max(0, Math.min(1, pointsVal / 1000));
+    let progress = 0;
+    if (pointsVal <= 100) {
+      progress = 0;
+    } else if (pointsVal <= 200) {
+      progress = 0.2 * (pointsVal - 100) / 100;
+    } else if (pointsVal <= 300) {
+      progress = 0.2 + 0.2 * (pointsVal - 200) / 100;
+    } else if (pointsVal <= 400) {
+      progress = 0.4 + 0.2 * (pointsVal - 300) / 100;
+    } else if (pointsVal <= 500) {
+      progress = 0.6 + 0.2 * (pointsVal - 400) / 100;
+    } else if (pointsVal <= 750) {
+      progress = 0.8 + 0.2 * (pointsVal - 500) / 250;
+    } else {
+      progress = 1.0;
+    }
     
     // Smoothly slide the star dynamically based on --pill-padding along the progress line
     DOM.spendGalaxyStar.style.left = `calc(var(--pill-padding) + ${progress} * (100% - var(--pill-padding) * 2))`;

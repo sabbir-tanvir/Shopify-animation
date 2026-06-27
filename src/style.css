@@ -687,9 +687,6 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(247, 245, 243, 0.65);
-  border: 1px solid var(--grey-border);
-  border-radius: 20px;
   transition: all var(--transition-normal);
 }
 
@@ -699,8 +696,8 @@ img {
   transform: translateY(-50%);
   left: 0;
   right: 0;
-  margin-left: 42px;
-  margin-right: 90px;
+  margin-left: 2px;
+  margin-right: 3px;
   height: 6px;
   background: linear-gradient(90deg, #E9DDD4 0%, #C7AF9F 33%, #B79A89 66%, #2E253A 100%);
   -webkit-mask: url('/svgs/spend-points/horigontal-Line.svg') no-repeat center;
@@ -729,7 +726,8 @@ img {
   width: 100%;
   height: 100%;
   border-radius: var(--radius-lg);
-  background: rgba(255, 255, 255, 0.35); /* Frosted glass look */
+  background: rgba(255, 255, 255, 0.35);
+  /* Frosted glass look */
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   border: 1px solid rgba(255, 255, 255, 0.4);
@@ -902,7 +900,8 @@ img {
   width: 24px;
   height: 20px;
   z-index: 3;
-  left: var(--pill-padding); /* Dynamic left */
+  left: var(--pill-padding);
+  /* Dynamic left */
   pointer-events: none;
   filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.9));
   transition: left 0.1s linear;
@@ -926,13 +925,14 @@ img {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 30px; /* spacing between top label and bottom label, line runs right in the middle! */
+  gap: 30px;
+  /* spacing between top label and bottom label, line runs right in the middle! */
 }
 
 .milestone-top {
   font-family: 'Inter', sans-serif;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 16px;
   color: #FFFFFF;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
@@ -940,7 +940,7 @@ img {
 .milestone-bottom {
   font-family: 'Inter', sans-serif;
   font-weight: 600;
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 0.5px;
   color: rgba(255, 255, 255, 0.85);
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
@@ -1053,7 +1053,7 @@ img {
   .tier-rewards {
     height: auto !important;
   }
-  
+
   .reward-card {
     height: 160px !important;
   }
