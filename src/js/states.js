@@ -123,11 +123,11 @@ export const TIERS = {
     },
     colors: {
       bgOuter: 'rgba(255, 255, 255, 0.6)',
-      borderOuter: '#D6C2B3',
+      borderOuter: '#2E253A',
       bgInner: '#FFFFFF',
-      borderInner: '#FFFFFF',
+      borderInner: '#2E253A',
       bgCounter: '#FFFFFF',
-      borderCounter: '#D6C2B3',
+      borderCounter: '#2E253A',
       text: '#3D3532',
     },
   },
@@ -406,6 +406,26 @@ export function buildAnimationSequence() {
         isTierEnd: state === tier.circleStates - 1,
       });
     }
+  }
+
+  // --- Phase 2: Spend Points Bonus Loop (0 to 1000 points) ---
+  const bonusMilestones = [0, 100, 200, 300, 400, 500, 750, 1000];
+  const ultraGalaxyTier = TIERS.ULTRA_GALAXY;
+  const ultraGalaxyCardState = getCardStateForFrame('ULTRA_GALAXY', 3);
+
+  for (let i = 0; i < bonusMilestones.length; i++) {
+    const pts = bonusMilestones[i];
+    sequence.push({
+      tier: ultraGalaxyTier,
+      circleState: 3,
+      svgPath: `/svgs/circles/ultra-galaxy-3.svg`,
+      starPath: `/svgs/tire-starstep/Property 1=Variant18.svg`,
+      points: pts,
+      cardState: ultraGalaxyCardState,
+      isBonusPhase: true,
+      isTierStart: i === 0,
+      isTierEnd: i === bonusMilestones.length - 1,
+    });
   }
 
   return sequence;

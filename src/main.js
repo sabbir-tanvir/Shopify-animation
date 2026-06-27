@@ -27,6 +27,10 @@ const DOM = {
   counterNumberContainer: document.getElementById('sparkle-counter-number-container'),
   tierInfoCard: document.getElementById('tier-info-card'),
   earnSparkle: document.getElementById('earn-sparkle-content'),
+  spendBar: document.getElementById('spend-bar'),
+  spendLabel: document.getElementById('spend-label'),
+  spendGalaxyProgress: document.getElementById('spend-galaxy-progress'),
+  spendGalaxyStar: document.getElementById('spend-galaxy-star'),
 };
 
 // Helper to trigger CSS fade-up animation (for counter)
@@ -85,6 +89,10 @@ const tShinyStart = shinyStartIndex !== -1 ? frameTimestamps[shinyStartIndex] : 
 const tStarlightStart = starlightStartIndex !== -1 ? frameTimestamps[starlightStartIndex] : 0;
 const tGalaxyStart = galaxyStartIndex !== -1 ? frameTimestamps[galaxyStartIndex] : 0;
 const tUltraGalaxyStart = ultraGalaxyStartIndex !== -1 ? frameTimestamps[ultraGalaxyStartIndex] : 999999;
+
+const firstBonusIndex = sequence.findIndex(f => f.isBonusPhase);
+const tBonusStart = firstBonusIndex !== -1 ? frameTimestamps[firstBonusIndex] : 999999;
+const tLoopEnd = cumulativeTime;
 
 const REWARD_ORDER = [
   'reward-welcome',
@@ -466,6 +474,31 @@ function updateSpendPoints(tierId, circleState, points) {
   }
 }
 
+function updateSpendPointsSmooth(elapsed) {
+  if (!DOM.spendBar || !DOM.spendGalaxyProgress || !DOM.spendGalaxyStar || !DOM.spendLabel) return;
+
+  if (elapsed >= tBonusStart) {
+    // Phase 2: Spend Points Bonus Loop
+    DOM.spendBar.classList.add('unlocked-galaxy-phase');
+    DOM.spendGalaxyProgress.style.display = 'flex';
+
+    // Calculate progress directly from the counter animation value (0 to 1000)
+    // to keep it perfectly synchronized with the displayed points count
+    const pointsVal = counter.currentValue;
+    const progress = Math.max(0, Math.min(1, pointsVal / 1000));
+    
+    // Smoothly slide the star dynamically based on --pill-padding along the progress line
+    DOM.spendGalaxyStar.style.left = `calc(var(--pill-padding) + ${progress} * (100% - var(--pill-padding) * 2))`;
+
+    // Update label text
+    DOM.spendLabel.textContent = 'SPEND SPARCKLE POINTS: ' + pointsVal + ' PTS';
+  } else {
+    // Phase 1: Standard progression (S-Brillet to Ultra Galaxy)
+    DOM.spendBar.classList.remove('unlocked-galaxy-phase');
+    DOM.spendGalaxyProgress.style.display = 'none';
+  }
+}
+
 // ─── Preload All SVGs ───────────────────────────────────────
 
 const allCircleSvgs = sequence.map((frame) => frame.svgPath);
@@ -558,6 +591,7 @@ function tick() {
   const elapsed = performance.now() - cycleStartTime;
   updateRewardCardsByTime(elapsed);
   updateBundleDeals(elapsed);
+  updateSpendPointsSmooth(elapsed);
   rafId = requestAnimationFrame(tick);
 }
 
@@ -569,6 +603,7 @@ counter.onUpdate = (val) => {
     : (firstFrameIndex !== -1 ? frameTimestamps[firstFrameIndex] : 0);
 
   updateBundleDeals(elapsed);
+  updateSpendPointsSmooth(elapsed);
   
   const matchedFrame = firstFrameIndex !== -1 ? sequence[firstFrameIndex] : sequence[sequence.length - 1];
   if (matchedFrame) {
@@ -736,7 +771,12 @@ function playFrame() {
   // 4. Animate counter on points change
   const isPointsChange = prevFrame && prevFrame.points !== frame.points;
   if (isPointsChange) {
-    counter.animateTo(frame.points, TIMING.counterAnimDuration);
+    if (frame.points === 0 && prevFrame.points === 1000) {
+      // Snap instantly to 0 points when starting Phase 2 or resetting loop
+      counter.set(0);
+    } else {
+      counter.animateTo(frame.points, TIMING.counterAnimDuration);
+    }
     triggerFadeUp(DOM.counterNumberContainer);
   }
 
