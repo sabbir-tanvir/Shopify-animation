@@ -209,7 +209,7 @@ img {
   height: 100%;
   object-fit: contain;
   opacity: 0;
-  transition: opacity var(--transition-normal);
+  transition: opacity 1000ms linear;
   will-change: opacity;
 }
 
